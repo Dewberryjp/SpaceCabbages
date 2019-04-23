@@ -382,7 +382,7 @@ public class GameManager extends GameCore {
         }
         else if (collisionSprite instanceof Creature) {
             Creature badguy = (Creature)collisionSprite;
-            if (canKill) {
+            if (canKill) { 
                 // kill the badguy and make player bounce
                 soundManager.play(boopSound);
                 badguy.setState(Creature.STATE_DYING);
