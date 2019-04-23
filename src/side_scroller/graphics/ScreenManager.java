@@ -121,7 +121,7 @@ public class ScreenManager {
             device.isDisplayChangeSupported())
         {
             try {
-                device.setDisplayMode(displayMode);
+                //device.setDisplayMode(displayMode);
             }
             catch (IllegalArgumentException ex) { }
             // fix for mac os x
