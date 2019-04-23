@@ -122,6 +122,8 @@ public class ScreenManager {
         {
             try {
                 //device.setDisplayMode(displayMode);
+            	frame.setSize(displayMode.getWidth(),
+                        displayMode.getHeight());
             }
             catch (IllegalArgumentException ex) { }
             // fix for mac os x
@@ -132,7 +134,7 @@ public class ScreenManager {
         try {
             EventQueue.invokeAndWait(new Runnable() {
                 public void run() {
-                    frame.createBufferStrategy(2);
+                    frame.createBufferStrategy(3);
                 }
             });
         }

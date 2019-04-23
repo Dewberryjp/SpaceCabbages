@@ -92,7 +92,6 @@ public class MidiPlayer implements MetaEventListener {
         looping is on.
     */
     public void meta(MetaMessage event) {
-    	System.out.println(event.getType());
         if (event.getType() == END_OF_TRACK_MESSAGE) {
             if (sequencer != null && sequencer.isOpen() && loop) {
             	sequencer.setLoopCount(Sequencer.LOOP_CONTINUOUSLY);
