@@ -419,7 +419,7 @@ public class GameManager extends GameCore {
         else if (powerUp instanceof PowerUp.Goal) {
             // advance to next map
             soundManager.play(prizeSound,
-                new EchoFilter(2000, .7f), false);
+                new EchoFilter(4000, 2.7f), false);
             map = resourceManager.loadNextMap();
         } else if (powerUp instanceof PowerUp.Other) {
         	soundManager.play(alienSound);
