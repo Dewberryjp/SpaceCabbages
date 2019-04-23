@@ -382,7 +382,7 @@ public class GameManager extends GameCore {
         }
         else if (collisionSprite instanceof Creature) {
             Creature badguy = (Creature)collisionSprite;
-            if (canKill) {
+            if (canKill) { 
                 // kill the badguy and make player bounce
                 soundManager.play(boopSound);
                 badguy.setState(Creature.STATE_DYING);
@@ -391,7 +391,9 @@ public class GameManager extends GameCore {
             }
             else {
                 // player dies!
-                player.setState(Creature.STATE_DYING);
+                //player.setState(Creature.STATE_DYING);
+            	// player jumps!
+            	player.jump(true);
             }
         }
     }
@@ -417,7 +419,7 @@ public class GameManager extends GameCore {
         else if (powerUp instanceof PowerUp.Goal) {
             // advance to next map
             soundManager.play(prizeSound,
-                new EchoFilter(2000, .7f), false);
+                new EchoFilter(4000, 2.7f), false);
             map = resourceManager.loadNextMap();
         } else if (powerUp instanceof PowerUp.Other) {
         	soundManager.play(alienSound);
