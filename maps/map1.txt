@@ -5,16 +5,22 @@
 #   A..Z    Tiles A through Z
 #   o       Star
 #   !       Music Note
-#   *       Goal
-#   1       Bad Guy 1 (grub)
-#   2       Bad Guy 2 (fly)
-                                                                 
-           3        3                                      o     o
-       3  III     3                                  o      o    o
-                       o o o       !o o o       o     o      o 
-                      IIIIIII      IIIIIII       o     o         2
-      3 3      3                                  o !      2
-                                  2                 2EF
-         !       EF                                 EGD
-    !  !EF  1    CD       1           1            EGAD     *
-BBBBBBBBGHBBBBBBBGHBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBBGAAHBBBBBBBBBBB
+#   *       Goal                                                           
+#   1       Bad Guy 1 (grub)                                               
+#   2       Bad Guy 2 (fly) 
+
+
+
+
+                                                                 PPPPPPPPPPP
+                                                                           QR
+                  o                                                        QR                                    Q
+            o    PPP                                                 3NO o QR                                    Q
+o     3     PPP   2  oP            o                                 oQR   QR     o                   o          Q 
+P                              P   3     o  o  o                     oQR o QR    PPP2 2           2 2PPP         Q
+                      o                  P  P  P                     3QR   QR       3               3            Q 
+                     P      3                                        oQR o QR               o                    Q
+                                                                     oQR   QR     2        NKO        2          Q
+         !       NO                                                  oQR o QR             NLJMO               333Q
+    !  !NO  1    QR             NO11 1o1 11NO                        3QR111           oNKKLJJJMKKOo     111   3 *Q
+KKKKKKKKLMKKKKKKKLMKKKKKKKKKKKKKLMKKKKKKKKKLR  3   3   3   3     NKKKKLMKKKKKKKKKKKKKKKLJJJJJJJJJMKKKKKKKKKKKKKKKL
