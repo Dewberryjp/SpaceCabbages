@@ -63,6 +63,7 @@ public class GameManager extends GameCore {
         renderer = new TileMapRenderer();
         renderer.setBackground(
             resourceManager.loadImage("background.png"));
+        
 
         // load first map
         map = resourceManager.loadNextMap();
