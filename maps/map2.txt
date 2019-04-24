@@ -22,5 +22,5 @@ JR                                                                              
 JR                                                                                                                   QJ
 JR                                                                                                                   QJ
 JR                                                                                                                333QJ
-JR                                                                                                                3 *QJ
+JR     *                                                                                                          3 *QJ
 JMKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKLJ

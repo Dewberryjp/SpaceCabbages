@@ -17,10 +17,10 @@
 JR                     o                                                        QR                                   QJ  
 JRo               o   PPP                                                 3NO o QR                                   QJ
 JRP     3   3    PPP   2  oP            o                                 oQR   QR     o                   o         QJ
-JR                                  P   3     o  o  o                     oQR o QR    PPP2 2           2 2PPP        QJ
+JR                                  P   3     o  o  o                     oQR o QR    PPP                 PPP        QJ
 JR                         o                     P  P                     3QR   QR       3               3           QJ
 JR                        P      3            P                           oQR o QR               o                   QJ
 JR                                                                        oQR   QR     2        NKO        2         QJ
 JR            !       NO                                                  oQR o QR             NLJMO              333QJ
-JR   *   !  !NO  1    QR             NO11 1o1 11NO                        3QR111           oNKKLJJJMKKOo     111  3 *QJ
-JMKKKKKKKKKKKLMKKKKKKKLMKKKKKKKKKKKKKLMKKKKKKKKKLR  3   3   3   3    2 KKKKLMKKKKKKKKKKKKKKKLJJJJJJJJJMKKKKKKKKKKKKKKLJ
+JR   *   !  !NO  1    QR             NO11 1o1 11NO                        3QR111           oNKKLJJJMKKOo       1  3 *QJ
+JMKKKKKKKKKKKLMKKKKKKKLMKKKKKKKKKKKKKLMKKKKKKKKKLR  3   3   3   3    2 NKKKLMKKKKKKKKKKKKKKKLJJJJJJJJJMKKKKKKKKKKKKKKLJ

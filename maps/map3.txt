@@ -11,16 +11,16 @@
                                                                                                                    
                                                                                                                    
                                                                                                                    
-                                                                                                                   
-                                                                                                                     
-                                                                                                                     
-JR                                                                                                                   QJ  
-JR                                                                                                                   QJ
-JR                                                                                                                   QJ
-JR                                                                                                                   QJ
-JR                                                                                                                   QJ
-JR                                                                                                                   QJ
-JR                                                                                                                   QJ
-JR                                                                                                                333QJ
-JR                                                                                                                3 *QJ
-JMKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKLJ
+             QR                                                                                                     
+             QR                                                                                                       
+             QR                                                                                                     
+JR           QRo               oP     1      1P                                                                      QJ  
+JRPPPPPPPPP  QRP               PPPPPPPPPPPPPPPPPP                                                                   2QJ
+JRo     2P   QR     3NO                          P       NO               2    P2                       1        ooooQJ
+JR           QR      QR                           P     PQR                     P   3ooPPPPPPPPPPPPPPPPPPPP33  33PPPPQJ
+JRPPPPP      QRo     QR                            P   P QR                         3NOo                 2           QJ
+JR2   oP     QR3     QR                2P      333  P 3  QR                         3QR         2                    QJ
+JR           QR     oQR        2       P      3ooo3   2  QR                         3QR3     PP     2  1     2       QJ
+JRPPPPP      QR2    3QR              2Po       333     2oQR           PPPP          3QR      PP        NO            QJ
+JRo11    P           QR1 oNO                            2QR      NO 1  oo  1 NO 1 1 oQR*     1  2     oQR  1        oQJ
+JMKKKKKKKKKKKKKKKKKKKLMKKKLMO   NKKO    NKKKO   NKO    NKLMO    NLMKKKKKKKKKKLMKKKKKKLMKKKKKKKKKKKKKKKKLMKKKKKKKKKKKKLJ
