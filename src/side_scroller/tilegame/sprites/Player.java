@@ -14,7 +14,9 @@ public class Player extends Creature {
     private boolean onGround;
     private Animation jumpLeft;
     private Animation jumpRight;
-
+    protected Animation deadLeft;
+    protected Animation deadRight; 
+    
     public Player(Animation left, Animation right,
         Animation deadLeft, Animation deadRight,
         Animation jumpLeft, Animation jumpRight)
@@ -22,6 +24,9 @@ public class Player extends Creature {
         super(left, right, deadLeft, deadRight);
         this.jumpLeft=jumpLeft;
         this.jumpRight=jumpRight;
+        this.deadLeft = deadLeft;
+        this.deadRight = deadRight;
+        state = STATE_NORMAL;
     }
     
     public Object clone() {
@@ -71,7 +76,25 @@ public class Player extends Creature {
     public void wakeUp() {
         // do nothing
     }
+    public int getState() {
+        return state;
+    }
+    
+    public void setState(int state) {
+        if (this.state != state) {
+            this.state = state;
+            stateTime = 0;
+            if (state == STATE_DYING) {
+                setVelocityX(0);
+                setVelocityY(0);
+            }
+        }
+    }
 
+    	
+    public boolean isAlive() {
+        return (state == STATE_NORMAL);
+    }
 
     /**
         Makes the player jump if the player is on the ground or
@@ -81,7 +104,7 @@ public class Player extends Creature {
         if (onGround || forceJump) {
             onGround = false;
             setVelocityY(JUMP_SPEED);
-            System.out.print("changed onGround=false");
+            
         }
     }
 
@@ -100,13 +123,13 @@ public class Player extends Creature {
     		if (onGround) {
     			newAnim = left;
     		} else {
-    			System.out.println("jumping");
+    			
     			newAnim = jumpLeft;
     		}
     	}
     	else if (getVelocityX() > 0) {
     		if (onGround) {
-    			System.out.println("jumping");
+
     			newAnim = right;
     		} else {
     			newAnim = jumpRight;
@@ -122,11 +145,13 @@ public class Player extends Creature {
     			newAnim = left;
     		}
     	} 
-    	if (state == STATE_DYING && getVelocityX() < 0) {
+    	if (state == STATE_DYING &&  newAnim == left) {
     		newAnim = deadLeft;
+    		
     	}
-    	else if (state == STATE_DYING && getVelocityX() > 0) {
+    	else if (state == STATE_DYING &&  newAnim == right) {
     		newAnim = deadRight;
+    		
     	}
 
     	// update the Animation

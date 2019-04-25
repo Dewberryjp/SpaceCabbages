@@ -152,6 +152,7 @@ public abstract class Creature extends Sprite {
         else if (getVelocityX() > 0) {
             newAnim = right;
         }
+        
         if (state == STATE_DYING && newAnim == left) {
             newAnim = deadLeft;
         }
