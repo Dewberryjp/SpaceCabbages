@@ -1,0 +1,8 @@
+User-Input			Event
+************************
+left-right			move
+space				jump (sound)
+esc					pause/unpause and menu
+double left-right	roll and move (update state of player)
+down arrow			smash
+up arrow			special ability (sound)
