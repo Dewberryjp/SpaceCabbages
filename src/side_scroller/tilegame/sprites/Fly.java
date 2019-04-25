@@ -14,7 +14,7 @@ public class Fly extends Creature {
 
 
     public float getMaxSpeed() {
-        return 0.8f;
+        return 0.1f;
     }
 
 

@@ -15,7 +15,7 @@ public class Grub extends Creature {
 
 
     public float getMaxSpeed() {
-        return 0.5f;
+        return 0.1f;
     }
 
 }

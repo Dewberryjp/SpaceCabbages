@@ -292,13 +292,13 @@ public class ResourceManager {
         		getMirrorImage(jumpImages[0][2])
         };
         Animation jumpLeft = new Animation();
-        jumpLeft.addFrame(jumpImages[0][0], 250);
-        jumpLeft.addFrame(jumpImages[0][1], 150);
-        jumpLeft.addFrame(jumpImages[0][2], 150);
+        jumpLeft.addFrame(jumpImages[0][0], 50);
+        jumpLeft.addFrame(jumpImages[0][1], 50);
+        jumpLeft.addFrame(jumpImages[0][2], 350);
         Animation jumpRight = new Animation();
-        jumpRight.addFrame(jumpImages[1][0], 250);
-        jumpRight.addFrame(jumpImages[1][1], 150);
-        jumpRight.addFrame(jumpImages[1][2], 150);
+        jumpRight.addFrame(jumpImages[1][0], 50);
+        jumpRight.addFrame(jumpImages[1][1], 50);
+        jumpRight.addFrame(jumpImages[1][2], 350);
 
         // create creature sprites
         playerSprite = new Player(playerAnim[0], playerAnim[1],
