@@ -10,11 +10,16 @@ public class Player extends Creature {
     private static final float JUMP_SPEED = -.95f;
 
     private boolean onGround;
+    private Animation jumpLeft;
+    private Animation jumpRight;
 
     public Player(Animation left, Animation right,
-        Animation deadLeft, Animation deadRight)
+        Animation deadLeft, Animation deadRight,
+        Animation jumpLeft, Animation jumpRight)
     {
         super(left, right, deadLeft, deadRight);
+        this.jumpLeft=jumpLeft;
+        this.jumpRight=jumpRight;
     }
 
 
@@ -60,6 +65,49 @@ public class Player extends Creature {
 
     public float getMaxSpeed() {
         return 0.5f;
+    }
+    
+    /**
+    Updates the animaton for this creature.
+     */
+    public void update(long elapsedTime) {
+    	// select the correct Animation
+    	Animation newAnim = anim;
+    	if (getVelocityX() < 0) {
+    		if (onGround) {
+    			newAnim = left;
+    		} else {
+    			newAnim = jumpLeft;
+    		}
+    	}
+    	else if (getVelocityX() > 0) {
+    		if (onGround) {
+    			newAnim = right;
+    		} else {
+    			newAnim = jumpRight;
+    		}
+    	}
+    	if (state == STATE_DYING && getVelocityX() < 0) {
+    		newAnim = deadLeft;
+    	}
+    	else if (state == STATE_DYING && getVelocityX() > 0) {
+    		newAnim = deadRight;
+    	}
+
+    	// update the Animation
+    	if (anim != newAnim) {
+    		anim = newAnim;
+    		anim.start();
+    	}
+    	else {
+    		anim.update(elapsedTime);
+    	}
+
+    	// update to "dead" state
+    	stateTime += elapsedTime;
+    	if (state == STATE_DYING && stateTime >= DIE_TIME) {
+    		setState(STATE_DEAD);
+    	}
     }
 
 }

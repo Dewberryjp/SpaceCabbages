@@ -278,10 +278,31 @@ public class ResourceManager {
             grubAnim[i] = createGrubAnim(
                 images[i][6], images[i][7]);
         }
+        
+        //make the two jumping animations
+        Image[][] jumpImages=new Image[2][];
+        jumpImages[0]= new Image[] {
+        	loadImage("playerJump1.png"),
+        	loadImage("playerJump2.png"),
+        	loadImage("playerJump3.png")
+        };
+        jumpImages[1]=new Image[] {
+        		getMirrorImage(jumpImages[0][0]),
+        		getMirrorImage(jumpImages[0][1]),
+        		getMirrorImage(jumpImages[0][2])
+        };
+        Animation jumpLeft = new Animation();
+        jumpLeft.addFrame(jumpImages[0][0], 250);
+        jumpLeft.addFrame(jumpImages[0][1], 150);
+        jumpLeft.addFrame(jumpImages[0][2], 150);
+        Animation jumpRight = new Animation();
+        jumpLeft.addFrame(jumpImages[1][0], 250);
+        jumpLeft.addFrame(jumpImages[1][1], 150);
+        jumpLeft.addFrame(jumpImages[1][2], 150);
 
         // create creature sprites
         playerSprite = new Player(playerAnim[0], playerAnim[1],
-            playerAnim[2], playerAnim[3]);
+            playerAnim[2], playerAnim[3],jumpLeft,jumpRight);
         flySprite = new Fly(flyAnim[0], flyAnim[1],
             flyAnim[2], flyAnim[3]);
         grubSprite = new Grub(grubAnim[0], grubAnim[1],
