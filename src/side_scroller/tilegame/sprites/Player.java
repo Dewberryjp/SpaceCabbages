@@ -1,5 +1,7 @@
 package side_scroller.tilegame.sprites;
 
+import java.lang.reflect.Constructor;
+
 import side_scroller.graphics.Animation;
 
 /**
@@ -20,6 +22,26 @@ public class Player extends Creature {
         super(left, right, deadLeft, deadRight);
         this.jumpLeft=jumpLeft;
         this.jumpRight=jumpRight;
+    }
+    
+    public Object clone() {
+        // use reflection to create the correct subclass
+        Constructor constructor = getClass().getConstructors()[0];
+        try {
+            return constructor.newInstance(new Object[] {
+                (Animation)left.clone(),
+                (Animation)right.clone(),
+                (Animation)deadLeft.clone(),
+                (Animation)deadRight.clone(),
+                (Animation)jumpLeft.clone(),
+                (Animation)jumpRight.clone()
+            });
+        }
+        catch (Exception ex) {
+            // should never happen
+            ex.printStackTrace();
+            return null;
+        }
     }
 
 
@@ -59,6 +81,7 @@ public class Player extends Creature {
         if (onGround || forceJump) {
             onGround = false;
             setVelocityY(JUMP_SPEED);
+            System.out.print("changed onGround=false");
         }
     }
 
@@ -77,16 +100,28 @@ public class Player extends Creature {
     		if (onGround) {
     			newAnim = left;
     		} else {
+    			System.out.println("jumping");
     			newAnim = jumpLeft;
     		}
     	}
     	else if (getVelocityX() > 0) {
     		if (onGround) {
+    			System.out.println("jumping");
     			newAnim = right;
     		} else {
     			newAnim = jumpRight;
     		}
-    	}
+    	} else {
+    		if (!onGround && newAnim==right) {
+    			newAnim= jumpRight;
+    		} else if (!onGround && newAnim==left) {
+    			newAnim=jumpLeft;
+    		} else if (onGround && newAnim==jumpRight) {
+    			newAnim = right;
+    		} else if (onGround && newAnim==jumpLeft) {
+    			newAnim = left;
+    		}
+    	} 
     	if (state == STATE_DYING && getVelocityX() < 0) {
     		newAnim = deadLeft;
     	}
