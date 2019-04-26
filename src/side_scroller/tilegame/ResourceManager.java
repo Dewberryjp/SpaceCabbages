@@ -291,6 +291,25 @@ public class ResourceManager {
         		getMirrorImage(jumpImages[0][1]),
         		getMirrorImage(jumpImages[0][2])
         };
+        Image[][] rollImages=new Image[2][];
+        rollImages[0]=new Image[] {
+        	loadImage("playerRoll1.png"),
+        	loadImage("playerRoll2.png"),
+        	loadImage("playerRoll3.png"),
+        	loadImage("playerRoll4.png"),
+        	loadImage("playerRoll5.png"),
+        	loadImage("playerRoll6.png"),
+        	loadImage("playerRoll7.png")
+        };
+        rollImages[1]=new Image[] {
+        	getMirrorImage(rollImages[0][0]),
+        	getMirrorImage(rollImages[0][1]),
+        	getMirrorImage(rollImages[0][2]),
+        	getMirrorImage(rollImages[0][3]),
+        	getMirrorImage(rollImages[0][4]),
+        	getMirrorImage(rollImages[0][5]),
+        	getMirrorImage(rollImages[0][6])
+        };
         Animation jumpLeft = new Animation();
         jumpLeft.addFrame(jumpImages[0][0], 250);
         jumpLeft.addFrame(jumpImages[0][1], 150);
@@ -299,7 +318,22 @@ public class ResourceManager {
         jumpRight.addFrame(jumpImages[1][0], 250);
         jumpRight.addFrame(jumpImages[1][1], 150);
         jumpRight.addFrame(jumpImages[1][2], 150);
-
+        Animation rollLeft = new Animation();
+        rollLeft.addFrame(rollImages[0][0], 100);
+        rollLeft.addFrame(rollImages[0][1], 100);
+        rollLeft.addFrame(rollImages[0][2], 100);
+        rollLeft.addFrame(rollImages[0][3], 100);
+        rollLeft.addFrame(rollImages[0][4], 100);
+        rollLeft.addFrame(rollImages[0][5], 100);
+        rollLeft.addFrame(rollImages[0][6], 100);
+        Animation rollRight = new Animation();
+        rollRight.addFrame(rollImages[1][0], 100);
+        rollRight.addFrame(rollImages[1][1], 100);
+        rollRight.addFrame(rollImages[1][2], 100);
+        rollRight.addFrame(rollImages[1][3], 100);
+        rollRight.addFrame(rollImages[1][4], 100);
+        rollRight.addFrame(rollImages[1][5], 100);
+        rollRight.addFrame(rollImages[1][6], 100);
         // create creature sprites
         playerSprite = new Player(playerAnim[0], playerAnim[1],
             playerAnim[2], playerAnim[3],jumpLeft,jumpRight);
@@ -353,12 +387,16 @@ public class ResourceManager {
         anim.addFrame(loadImage("heart2.png"), 150);
         goalSprite = new PowerUp.Goal(anim);
 
-        // create "star" sprite
+        // create "star/key" sprite
         anim = new Animation();
-        anim.addFrame(loadImage("star1.png"), 100);
-        anim.addFrame(loadImage("star2.png"), 100);
-        anim.addFrame(loadImage("star3.png"), 100);
-        anim.addFrame(loadImage("star4.png"), 100);
+        anim.addFrame(loadImage("key.png"), 100);
+        anim.addFrame(loadImage("key1.png"), 100);
+        anim.addFrame(loadImage("key2.png"), 100);
+        anim.addFrame(loadImage("key3.png"), 100);
+        anim.addFrame(loadImage("key3.png"), 100);
+        anim.addFrame(loadImage("key2.png"), 100);
+        anim.addFrame(loadImage("key1.png"), 100);
+        anim.addFrame(loadImage("key.png"), 100);
         coinSprite = new PowerUp.Star(anim);
 
         // create "music" sprite

@@ -40,6 +40,17 @@ public class GameManager extends GameCore {
     private Sound prizeSound;
     private Sound boopSound;
     private Sound alienSound;
+    private Sound layerCakeSound;
+    private Sound deadBossSound;
+    private Sound mobDyingSound;
+    private Sound newLevelSound;
+    private Sound playerDamageSound;
+    private Sound playerDyingSound;
+    private Sound playerJumpingSound;
+    private Sound rollSound;
+    private Sound tittyJuiceSound;
+    private Sound ultimateSound;
+    
     private InputManager inputManager;
     private TileMapRenderer renderer;
 
@@ -73,6 +84,16 @@ public class GameManager extends GameCore {
         prizeSound = soundManager.getSound("sounds/prize.wav");
         boopSound = soundManager.getSound("sounds/boop2.wav");
         alienSound = soundManager.getSound("sounds/alien.wav");
+        layerCakeSound = soundManager.getSound("sounds/3layercake.wav");
+        deadBossSound = soundManager.getSound("sounds/dead boss.wav");
+        mobDyingSound = soundManager.getSound("sounds/mobDying.wav");
+        newLevelSound = soundManager.getSound("sounds/NEW LVL.wav");
+        playerDamageSound = soundManager.getSound("sounds/Player Damage.wav");
+        playerDyingSound = soundManager.getSound("sounds/Player Dying.wav");
+        playerJumpingSound = soundManager.getSound("sounds/playerJump.wav");
+        rollSound = soundManager.getSound("sounds/roll.wav");
+        tittyJuiceSound = soundManager.getSound("sounds/TittyJuice.wav");
+        ultimateSound = soundManager.getSound("sounds/ultMove.wav"); 
 
         // start music
         midiPlayer = new MidiPlayer();
@@ -385,7 +406,7 @@ public class GameManager extends GameCore {
             Creature badguy = (Creature)collisionSprite;
             if (canKill) { 
                 // kill the badguy and make player bounce
-                soundManager.play(boopSound);
+                soundManager.play(mobDyingSound);
                 badguy.setState(Creature.STATE_DYING);
                 player.setY(badguy.getY() - player.getHeight());
                 player.jump(true);
@@ -393,7 +414,7 @@ public class GameManager extends GameCore {
             else {
                 // player dies!
                 player.setState(Creature.STATE_DYING);
-            	
+                soundManager.play(playerDyingSound);
             	
             }
         }
@@ -419,8 +440,7 @@ public class GameManager extends GameCore {
         }
         else if (powerUp instanceof PowerUp.Goal) {
             // advance to next map
-            soundManager.play(prizeSound,
-                new EchoFilter(4000, 2.7f), false);
+            soundManager.play(newLevelSound);
             map = resourceManager.loadNextMap();
         } else if (powerUp instanceof PowerUp.Other) {
         	soundManager.play(alienSound);
