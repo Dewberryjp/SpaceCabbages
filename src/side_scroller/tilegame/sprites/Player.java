@@ -10,7 +10,7 @@ import side_scroller.graphics.Animation;
 public class Player extends Creature {
 
     private static final float JUMP_SPEED = -.95f;
-
+    public static final int STATE_STOMPING=3;
     private boolean onGround;
     private Animation jumpLeft;
     private Animation jumpRight;
@@ -169,5 +169,10 @@ public class Player extends Creature {
     		setState(STATE_DEAD);
     	}
     }
+
+	public boolean isOnGround() {
+		// TODO Auto-generated method stub
+		return onGround;
+	}
 
 }
