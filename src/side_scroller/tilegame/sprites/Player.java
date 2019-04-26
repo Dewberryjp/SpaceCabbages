@@ -169,7 +169,6 @@ public class Player extends Creature implements Cloneable {
     		anim.start();
     	}
     	else {
-    		System.out.println("updating");
     		anim.update(elapsedTime);
     	}
 
