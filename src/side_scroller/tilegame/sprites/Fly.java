@@ -6,12 +6,9 @@ import side_scroller.graphics.Animation;
 */
 public class Fly extends Creature {
 
-    public Fly(Animation left, Animation right,
-        Animation deadLeft, Animation deadRight)
-    {
-        super(left, right, deadLeft, deadRight);
-    }
-
+	public Fly(String name, Animation anim) {
+		super(name,anim);
+	}
 
     public float getMaxSpeed() {
         return 0.8f;

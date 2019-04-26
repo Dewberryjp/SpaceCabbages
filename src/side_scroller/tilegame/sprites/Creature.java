@@ -1,6 +1,5 @@
 package side_scroller.tilegame.sprites;
 
-import java.lang.reflect.Constructor;
 import side_scroller.graphics.*;
 
 import side_scroller.graphics.Sprite;
@@ -10,7 +9,7 @@ import side_scroller.graphics.Sprite;
     die. It has four Animations: moving left, moving right,
     dying on the left, and dying on the right.
 */
-public abstract class Creature extends Sprite {
+public class Creature extends Sprite implements Cloneable {
 
     /**
         Amount of time to go from STATE_DYING to STATE_DEAD.
@@ -21,16 +20,26 @@ public abstract class Creature extends Sprite {
     public static final int STATE_DYING = 1;
     public static final int STATE_DEAD = 2;
 
-    protected Animation left;
-    protected Animation right;
-    protected Animation deadLeft;
-    protected Animation deadRight;
+
     protected int state;
     protected long stateTime;
 
+    public Creature(String name, Animation anim) {
+    	super(name,anim);
+    	state = STATE_NORMAL;
+    	stateTime=0;
+    }
+    
+    public Object clone() throws CloneNotSupportedException {
+    	Creature c = (Creature)super.clone();
+    	c.state = this.state;
+    	c.stateTime = this.stateTime;
+    	return c;
+    }
+    
     /**
         Creates a new Creature with the specified Animations.
-    */
+    
     public Creature(Animation left, Animation right,
         Animation deadLeft, Animation deadRight)
     {
@@ -41,6 +50,7 @@ public abstract class Creature extends Sprite {
         this.deadRight = deadRight;
         state = STATE_NORMAL;
     }
+    
 
 
     public Object clone() {
@@ -60,6 +70,7 @@ public abstract class Creature extends Sprite {
             return null;
         }
     }
+    */
 
 
     /**
@@ -145,24 +156,24 @@ public abstract class Creature extends Sprite {
     */
     public void update(long elapsedTime) {
         // select the correct Animation
-        Animation newAnim = anim;
+        String animName=getAnimName();
         if (getVelocityX() < 0) {
-            newAnim = left;
+            animName="left";
         }
         else if (getVelocityX() > 0) {
-            newAnim = right;
+        	animName="right";
         }
         
-        if (state == STATE_DYING && newAnim == left) {
-            newAnim = deadLeft;
+        if (state == STATE_DYING && animName.equals("left")) {
+            animName = "deadLeft";
         }
-        else if (state == STATE_DYING && newAnim == right) {
-            newAnim = deadRight;
+        else if (state == STATE_DYING && animName.equals("right")) {
+        	animName="deadRight";
         }
 
         // update the Animation
-        if (anim != newAnim) {
-            anim = newAnim;
+        if (!animName.equals(getAnimName())) {
+        	switchAnimation(animName);
             anim.start();
         }
         else {
@@ -174,6 +185,10 @@ public abstract class Creature extends Sprite {
         if (state == STATE_DYING && stateTime >= DIE_TIME) {
             setState(STATE_DEAD);
         }
+    }
+    
+    public String toString() {
+    	return "Creature+"+super.toString();
     }
 
 }

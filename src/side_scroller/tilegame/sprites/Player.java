@@ -7,16 +7,25 @@ import side_scroller.graphics.Animation;
 /**
     The Player.
 */
-public class Player extends Creature {
+public class Player extends Creature implements Cloneable {
 
     private static final float JUMP_SPEED = -.95f;
     public static final int STATE_STOMPING=3;
     private boolean onGround;
-    private Animation jumpLeft;
-    private Animation jumpRight;
-    protected Animation deadLeft;
-    protected Animation deadRight; 
+
+    public Player(String name, Animation anim) {
+    	super(name,anim);
+    	onGround=true;
+    	state=STATE_NORMAL;
+    }
     
+    public Object clone() throws CloneNotSupportedException {
+    	Player p=(Player)super.clone();
+    	p.onGround=this.onGround;
+    	return p;
+    }
+
+    /*
     public Player(Animation left, Animation right,
         Animation deadLeft, Animation deadRight,
         Animation jumpLeft, Animation jumpRight)
@@ -48,6 +57,7 @@ public class Player extends Creature {
             return null;
         }
     }
+    */
 
 
     public void collideHorizontal() {
@@ -118,48 +128,48 @@ public class Player extends Creature {
      */
     public void update(long elapsedTime) {
     	// select the correct Animation
-    	Animation newAnim = anim;
+    	String animName=getAnimName();
     	if (getVelocityX() < 0) {
     		if (onGround) {
-    			newAnim = left;
+    			animName = "left";
     		} else {
     			
-    			newAnim = jumpLeft;
+    			animName = "jumpLeft";
     		}
     	}
     	else if (getVelocityX() > 0) {
     		if (onGround) {
 
-    			newAnim = right;
+    			animName = "right";
     		} else {
-    			newAnim = jumpRight;
+    			animName = "jumpRight";
     		}
     	} else {
-    		if (!onGround && newAnim==right) {
-    			newAnim= jumpRight;
-    		} else if (!onGround && newAnim==left) {
-    			newAnim=jumpLeft;
-    		} else if (onGround && newAnim==jumpRight) {
-    			newAnim = right;
-    		} else if (onGround && newAnim==jumpLeft) {
-    			newAnim = left;
+    		if (!onGround && animName.equals("right")) {
+    			animName= "jumpRight";
+    		} else if (!onGround && animName.equals("left")) {
+    			animName="jumpLeft";
+    		} else if (onGround && animName.equals("jumpRight")) {
+    			animName="right";
+    		} else if (onGround && animName.equals("jumpLeft")) {
+    			animName="left";
     		}
     	} 
-    	if (state == STATE_DYING &&  newAnim == left) {
-    		newAnim = deadLeft;
-    		
+    	if (state == STATE_DYING &&  animName.equals("left")) {
+    		animName="deadLeft";
     	}
-    	else if (state == STATE_DYING &&  newAnim == right) {
-    		newAnim = deadRight;
+    	else if (state == STATE_DYING &&  animName.equals("right")) {
+    		animName="deadRight";
     		
     	}
 
     	// update the Animation
-    	if (anim != newAnim) {
-    		anim = newAnim;
+    	if (!getAnimName().equals(animName)) {
+    		switchAnimation(animName);
     		anim.start();
     	}
     	else {
+    		System.out.println("updating");
     		anim.update(elapsedTime);
     	}
 
@@ -173,6 +183,13 @@ public class Player extends Creature {
 	public boolean isOnGround() {
 		// TODO Auto-generated method stub
 		return onGround;
+	}
+	
+	public String toString() {
+		String s=this.getClass().getName();
+		s+=(this.anim==null?"animNull":"good");
+		s+=super.toString();
+		return s;
 	}
 
 }

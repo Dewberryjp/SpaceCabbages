@@ -1,22 +1,42 @@
 package side_scroller.graphics;
 
 import java.awt.Image;
+import java.util.HashMap;
 
-public class Sprite {
+public class Sprite implements Cloneable {
 
     protected Animation anim;
+    protected String animName;
     // position (pixels)
     private float x;
     private float y;
     // velocity (pixels per millisecond)
     private float dx;
     private float dy;
+    
+    private HashMap<String,Animation> animations;
 
     /**
         Creates a new Sprite object with the specified Animation.
     */
-    public Sprite(Animation anim) {
+    public Sprite(String name, Animation anim) {
+    	animName=name;
         this.anim = anim;
+        animations=new HashMap<String,Animation>();
+        animations.put(name, anim);
+    }
+    
+    public void addAnimation(String name, Animation anim) {
+    	animations.put(name,anim);
+    }
+    
+    public void switchAnimation(String name) {
+    	anim=animations.get(name);
+    	animName=name;
+    }
+    
+    public String getAnimName() {
+    	return animName;
     }
 
     /**
@@ -116,7 +136,15 @@ public class Sprite {
         Clones this Sprite. Does not clone position or velocity
         info.
     */
-    public Object clone() {
-        return new Sprite(anim);
+    public Object clone() throws CloneNotSupportedException {
+    	Sprite s=(Sprite) super.clone();
+    	s.animName=animName;
+    	s.anim=(Animation)anim.clone();
+    	s.animations=(HashMap<String, Animation>) animations.clone();
+        return s;
+    }
+    
+    public String toString() {
+    	return "sprite:"+animations.keySet().toString();
     }
 }

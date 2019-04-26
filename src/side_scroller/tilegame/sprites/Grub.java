@@ -7,11 +7,9 @@ import side_scroller.graphics.Animation;
 */
 public class Grub extends Creature {
 
-    public Grub(Animation left, Animation right,
-        Animation deadLeft, Animation deadRight)
-    {
-        super(left, right, deadLeft, deadRight);
-    }
+	public Grub(String name, Animation anim) {
+		super(name,anim);
+	}
 
 
     public float getMaxSpeed() {

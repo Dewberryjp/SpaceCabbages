@@ -183,7 +183,13 @@ public class ResourceManager {
         }
 
         // add the player to the map
-        Sprite player = (Sprite)playerSprite.clone();
+        Sprite player = null;
+		try {
+			player = (Sprite)playerSprite.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         player.setX(TileMapRenderer.tilesToPixels(3));
         player.setY(0);
         newMap.setPlayer(player);
@@ -197,7 +203,13 @@ public class ResourceManager {
     {
         if (hostSprite != null) {
             // clone the sprite from the "host"
-            Sprite sprite = (Sprite)hostSprite.clone();
+            Sprite sprite=null;
+			try {
+				sprite = (Sprite)hostSprite.clone();
+			} catch (CloneNotSupportedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 
             // center the sprite
             sprite.setX(
@@ -335,12 +347,24 @@ public class ResourceManager {
         rollRight.addFrame(rollImages[1][5], 100);
         rollRight.addFrame(rollImages[1][6], 100);
         // create creature sprites
-        playerSprite = new Player(playerAnim[0], playerAnim[1],
-            playerAnim[2], playerAnim[3],jumpLeft,jumpRight);
-        flySprite = new Fly(flyAnim[0], flyAnim[1],
-            flyAnim[2], flyAnim[3]);
-        grubSprite = new Grub(grubAnim[0], grubAnim[1],
-            grubAnim[2], grubAnim[3]);
+        
+        playerSprite =new Player("left",playerAnim[0]);
+        playerSprite.addAnimation("right", playerAnim[1]);
+        playerSprite.addAnimation("deadLeft", playerAnim[2]);
+        playerSprite.addAnimation("deadRight", playerAnim[3]);
+        playerSprite.addAnimation("jumpLeft", jumpLeft);
+        playerSprite.addAnimation("jumpRight", jumpRight);
+        
+        flySprite = new Fly("left",flyAnim[0]);
+        flySprite.addAnimation("right", flyAnim[1]);
+        flySprite.addAnimation("deadLeft", flyAnim[2]);
+        flySprite.addAnimation("deadRight", flyAnim[3]);
+        
+        grubSprite = new Grub("left",grubAnim[0]);
+        grubSprite.addAnimation("right", grubAnim[1]);
+        grubSprite.addAnimation("deadLeft", grubAnim[2]);
+        grubSprite.addAnimation("deadRight", grubAnim[3]);
+        
     }
 
 
@@ -385,7 +409,7 @@ public class ResourceManager {
         anim.addFrame(loadImage("heart2.png"), 150);
         anim.addFrame(loadImage("heart3.png"), 150);
         anim.addFrame(loadImage("heart2.png"), 150);
-        goalSprite = new PowerUp.Goal(anim);
+        goalSprite = new PowerUp.Goal("right",anim);
 
         // create "star/key" sprite
         anim = new Animation();
@@ -397,7 +421,7 @@ public class ResourceManager {
         anim.addFrame(loadImage("key2.png"), 100);
         anim.addFrame(loadImage("key1.png"), 100);
         anim.addFrame(loadImage("key.png"), 100);
-        coinSprite = new PowerUp.Star(anim);
+        coinSprite = new PowerUp.Star("right",anim);
 
         // create "music" sprite
         anim = new Animation();
@@ -405,7 +429,7 @@ public class ResourceManager {
         anim.addFrame(loadImage("music2.png"), 150);
         anim.addFrame(loadImage("music3.png"), 150);
         anim.addFrame(loadImage("music2.png"), 150);
-        musicSprite = new PowerUp.Music(anim);
+        musicSprite = new PowerUp.Music("right",anim);
         
         //create "other" sprite
         anim = new Animation();
@@ -413,7 +437,7 @@ public class ResourceManager {
         anim.addFrame(loadImage("powerup2.png"), 100);
         anim.addFrame(loadImage("powerup3.png"), 100);
         anim.addFrame(loadImage("powerup4.png"), 100);
-        otherSprite = new PowerUp.Other(anim);
+        otherSprite = new PowerUp.Other("right",anim);
     }
 
 }
