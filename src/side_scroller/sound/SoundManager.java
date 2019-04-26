@@ -69,7 +69,12 @@ public class SoundManager extends ThreadPool {
         DataLine.Info lineInfo = new DataLine.Info(
             SourceDataLine.class, playbackFormat);
         Mixer mixer = AudioSystem.getMixer(null);
-        return mixer.getMaxLines(lineInfo);
+        int maxLines = mixer.getMaxLines(lineInfo);
+        if (maxLines == AudioSystem.NOT_SPECIFIED) {
+            maxLines = 32;
+        }
+        return maxLines;
+        //return mixer.getMaxLines(lineInfo);
     }
 
 
