@@ -20,6 +20,8 @@ public class Creature extends Sprite implements Cloneable {
     public static final int STATE_DYING = 1;
     public static final int STATE_DEAD = 2;
 
+    public int health;
+  
 
     protected int state;
     protected long stateTime;
@@ -28,6 +30,7 @@ public class Creature extends Sprite implements Cloneable {
     	super(name,anim);
     	state = STATE_NORMAL;
     	stateTime=0;
+    	health = 100;
     }
     
     public Object clone() throws CloneNotSupportedException {
@@ -71,7 +74,21 @@ public class Creature extends Sprite implements Cloneable {
         }
     }
     */
-
+    /**
+     *  Gets the health from the current creature
+     * @return the health as an integer
+     */
+    public int getHealth() {
+    	return health; 
+    }
+    
+    /**
+     * Sets the current health of creature to a new health 
+     * @param how much health
+     */
+    public void setHealth(int health) {
+    	this.health = health;
+    }
 
     /**
         Gets the maximum speed of this Creature.

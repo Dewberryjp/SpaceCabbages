@@ -1,6 +1,7 @@
 package side_scroller.tilegame;
 
 import java.awt.*;
+
 import java.awt.geom.AffineTransform;
 import java.io.*;
 import java.util.ArrayList;
@@ -31,7 +32,8 @@ public class ResourceManager {
     private Sprite grubSprite;
     private Sprite flySprite;
     private Sprite otherSprite;
-
+    private Sprite waterSprite;
+    private Sprite healthSprite; 
     /**
         Creates a new ResourceManager with the specified
         GraphicsConfiguration.
@@ -87,7 +89,7 @@ public class ResourceManager {
     }
 
 
-    public TileMap loadNextMap() {
+    public TileMap loadNextMap(){
         TileMap map = null;
         while (map == null) {
             currentMap++;
@@ -98,7 +100,7 @@ public class ResourceManager {
             catch (IOException ex) {
                 if (currentMap == 1) {
                     // no maps to load!
-                    return null;
+                	return null; 
                 }
                 currentMap = 0;
                 map = null;
@@ -179,6 +181,15 @@ public class ResourceManager {
                 else if (ch == '3') {
                 	addSprite(newMap, otherSprite, x, y);
                 }
+                else if (ch == 'w') {
+                	addSprite(newMap, waterSprite, x, y);
+                }
+                /**
+                 *   else if (ch == 'h') {
+                	addSprite(newMap, healthSprite, x, y);
+                }
+                 */
+              
             }
         }
 
@@ -410,7 +421,7 @@ public class ResourceManager {
         anim.addFrame(loadImage("heart3.png"), 150);
         anim.addFrame(loadImage("heart2.png"), 150);
         goalSprite = new PowerUp.Goal("right",anim);
-
+       
         // create "star/key" sprite
         anim = new Animation();
         anim.addFrame(loadImage("key.png"), 100);
@@ -438,6 +449,25 @@ public class ResourceManager {
         anim.addFrame(loadImage("powerup3.png"), 100);
         anim.addFrame(loadImage("powerup4.png"), 100);
         otherSprite = new PowerUp.Other("right",anim);
+        
+        //create the "water drop (health powerup)"  sprite
+        anim = new Animation();
+        anim.addFrame(loadImage("WaterDrop.png"), 100);
+        waterSprite = new PowerUp.Water("right", anim);
+        
+        //create the "health bar" sprite
+       
+        
+        anim = new Animation();
+        anim.addFrame(loadImage("life1.png"), 150);
+        anim.addFrame(loadImage("life2.png"), 150);
+        anim.addFrame(loadImage("life3.png"), 150);
+        anim.addFrame(loadImage("life2.png"), 150);
+        anim.addFrame(loadImage("life3.png"), 150);
+        anim.addFrame(loadImage("life1.png"), 150);
+        healthSprite = new Sprite("right", anim);
+       
+   
     }
 
 }

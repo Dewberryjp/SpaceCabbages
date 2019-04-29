@@ -1,9 +1,11 @@
 package side_scroller.tilegame;
 
 import java.awt.Image;
+
 import java.util.LinkedList;
 
 import side_scroller.graphics.Sprite;
+import side_scroller.tilegame.sprites.PowerUp;
 
 import java.util.Iterator;
 
@@ -18,6 +20,8 @@ public class TileMap {
     private Image[][] tiles;
     private LinkedList sprites;
     private Sprite player;
+    private PowerUp powerup;
+    private int x,y; 
 
     /**
         Creates a new TileMap with the specified width and
@@ -28,7 +32,9 @@ public class TileMap {
         sprites = new LinkedList();
     }
 
-
+    public int getX() {
+    	return this.x;
+    }
     /**
         Gets the width of this TileMap (number of tiles across).
     */
@@ -92,6 +98,9 @@ public class TileMap {
     public void addSprite(Sprite sprite) {
         sprites.add(sprite);
     }
+    
+
+
 
 
     /**
@@ -109,5 +118,6 @@ public class TileMap {
     public Iterator getSprites() {
         return sprites.iterator();
     }
+
 
 }

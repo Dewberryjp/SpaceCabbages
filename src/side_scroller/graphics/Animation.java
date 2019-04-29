@@ -50,6 +50,11 @@ public class Animation {
         totalDuration += duration;
         frames.add(new AnimFrame(image, totalDuration));
     }
+    
+    public synchronized void removeFrame(Image image) {
+   
+    	frames.remove(new AnimFrame(image, totalDuration));
+    }
 
 
     /**

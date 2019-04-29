@@ -13,7 +13,7 @@ public class Sprite implements Cloneable {
     // velocity (pixels per millisecond)
     private float dx;
     private float dy;
-    
+    private static int total = 0;
     private HashMap<String,Animation> animations;
 
     /**
@@ -38,7 +38,7 @@ public class Sprite implements Cloneable {
     public String getAnimName() {
     	return animName;
     }
-
+    
     /**
         Updates this Sprite's Animation and its position based
         on the velocity.
@@ -131,7 +131,10 @@ public class Sprite implements Cloneable {
     public Image getImage() {
         return anim.getImage();
     }
-
+    
+    public int getTotal() {
+    	return this.total;
+    }
     /**
         Clones this Sprite. Does not clone position or velocity
         info.
