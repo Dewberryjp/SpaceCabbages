@@ -74,21 +74,6 @@ public class Creature extends Sprite implements Cloneable {
         }
     }
     */
-    /**
-     *  Gets the health from the current creature
-     * @return the health as an integer
-     */
-    public int getHealth() {
-    	return health; 
-    }
-    
-    /**
-     * Sets the current health of creature to a new health 
-     * @param how much health
-     */
-    public void setHealth(int health) {
-    	this.health = health;
-    }
 
     /**
         Gets the maximum speed of this Creature.
