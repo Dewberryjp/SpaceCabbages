@@ -3,6 +3,7 @@ package side_scroller.tilegame;
 import java.awt.*;
 import java.util.Iterator;
 
+import side_scroller.graphics.Animation;
 import side_scroller.graphics.Sprite;
 import side_scroller.tilegame.sprites.Creature;
 
@@ -28,6 +29,7 @@ public class TileMapRenderer {
     private static final int TILE_SIZE_BITS = 6;
 
     private Image background;
+    private Image background2;
 
     /**
         Converts a pixel position to a tile position.
@@ -131,7 +133,10 @@ public class TileMapRenderer {
             Math.round(player.getX()) + offsetX,
             Math.round(player.getY()) + offsetY,
             null);
-
+        g.drawString("players health: " + player.health, 50, 50);
+        player.setTotalKeys(10);
+        g.drawString("number of keys collected: "+ player.getCurrentKeys()+"/"+ player.getTotalKeys(), 450, 50);
+        
         // draw sprites
         Iterator i = map.getSprites();
         while (i.hasNext()) {

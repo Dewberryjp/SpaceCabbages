@@ -15,7 +15,10 @@ public class Sprite implements Cloneable {
     private float dy;
     private static int total = 0;
     private HashMap<String,Animation> animations;
-
+    
+    public int health;
+    public int keys; 
+    public int totalKeys;
     /**
         Creates a new Sprite object with the specified Animation.
     */
@@ -24,8 +27,23 @@ public class Sprite implements Cloneable {
         this.anim = anim;
         animations=new HashMap<String,Animation>();
         animations.put(name, anim);
+        health = 3;
+        keys = 0;
+        totalKeys = 0;
+        
     }
-    
+    public int getCurrentKeys() {
+    	return keys;
+    }
+    public void setCurrentKeys(int numKeys) {
+    	this.keys = numKeys;
+    }
+    public int getTotalKeys() {
+    	return totalKeys;  
+    }
+    public void setTotalKeys(int numKeys) {
+        this.totalKeys = numKeys;	
+    }
     public void addAnimation(String name, Animation anim) {
     	animations.put(name,anim);
     }
@@ -135,6 +153,23 @@ public class Sprite implements Cloneable {
     public int getTotal() {
     	return this.total;
     }
+    
+    /**
+     *  Gets the health from the current creature
+     * @return the health as an integer
+     */
+    public int getHealth() {
+    	return health; 
+    }
+    
+    /**
+     * Sets the current health of creature to a new health 
+     * @param how much health
+     */
+    public void setHealth(int health) {
+    	this.health = health;
+    }
+    
     /**
         Clones this Sprite. Does not clone position or velocity
         info.

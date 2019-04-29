@@ -89,6 +89,7 @@ public class ResourceManager {
 
 
     public TileMap loadNextMap(){
+    	
         TileMap map = null;
         while (map == null) {
             currentMap++;
@@ -105,7 +106,7 @@ public class ResourceManager {
                 map = null;
             }
         }
-
+        
         return map;
     }
 

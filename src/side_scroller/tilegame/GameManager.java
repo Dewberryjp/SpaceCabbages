@@ -363,6 +363,7 @@ public class GameManager extends GameCore {
         }
         if (creature instanceof Player) {
             checkPlayerCollision((Player)creature, false);
+           
         }
 
         // change y
@@ -389,6 +390,7 @@ public class GameManager extends GameCore {
         if (creature instanceof Player) {
             boolean canKill = (oldY < creature.getY());
             checkPlayerCollision((Player)creature, canKill);
+            
         }
 
     }
@@ -401,6 +403,7 @@ public class GameManager extends GameCore {
     */
     public void checkPlayerCollision(Player player,
         boolean canKill)
+    
     {
         if (!player.isAlive()) {
             return;
@@ -416,14 +419,27 @@ public class GameManager extends GameCore {
             if (canKill) { 
                 // kill the badguy and make player bounce
                 soundManager.play(mobDyingSound);
-                badguy.setState(Creature.STATE_DYING);
+               // badguy.setState(Creature.STATE_DYING);
                 player.setY(badguy.getY() - player.getHeight());
-                player.jump(true);
+                player.jump(false);
             }
             else {
-                // player dies!
-                player.setState(Creature.STATE_DYING);
-                soundManager.play(playerDyingSound);
+            	 float dx = badguy.getVelocityX();
+                //player dies!
+                //player.setState(Creature.STATE_DYING);
+            	int damageCount = 1;
+            	if(player.getHealth() > 1) {
+            		player.setHealth(player.getHealth()- damageCount);
+            		  
+                      if (dx < 0) {
+                          badguy.setVelocityX(Math.abs(dx));
+                      }
+            	}
+            	else {
+            		player.setState(Creature.STATE_DYING);
+            		soundManager.play(playerDyingSound);
+            	}
+            	
                 
             	
             }
@@ -441,6 +457,8 @@ public class GameManager extends GameCore {
       
         if (powerUp instanceof PowerUp.Star) {
             // do something here, like give the player points
+        	int keyCount = 1;
+        	player.setCurrentKeys(player.getCurrentKeys() + keyCount);
             soundManager.play(prizeSound);
         }
         else if (powerUp instanceof PowerUp.Music) {
@@ -458,7 +476,8 @@ public class GameManager extends GameCore {
         }
         else if(powerUp instanceof PowerUp.Water ) {
         	//add more health
-        	
+        	int waterCount = 1;
+        	player.setHealth(player.getHealth()+ waterCount);
         	//adding player will increase speed 2x
         	
         	
