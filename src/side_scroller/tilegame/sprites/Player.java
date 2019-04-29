@@ -12,11 +12,13 @@ public class Player extends Creature implements Cloneable {
     private static final float JUMP_SPEED = -.95f;
     public static final int STATE_STOMPING=3;
     private boolean onGround;
-
+    private float x ,y;
     public Player(String name, Animation anim) {
     	super(name,anim);
     	onGround=true;
     	state=STATE_NORMAL;
+    	this.x = this.getX();
+    	this.y = this.getY();
     }
     
     public Object clone() throws CloneNotSupportedException {
@@ -82,7 +84,12 @@ public class Player extends Creature implements Cloneable {
         super.setY(y);
     }
 
-
+    public float getPlayerX() {
+    	return x;
+    }
+    public float getPlayerY() {
+    	return y;
+    }
     public void wakeUp() {
         // do nothing
     }

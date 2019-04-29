@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 import side_scroller.graphics.*;
-
-import side_scroller.graphics.Sprite;
 import side_scroller.tilegame.sprites.*;
 
 
@@ -34,6 +32,7 @@ public class ResourceManager {
     private Sprite otherSprite;
     private Sprite waterSprite;
     private Sprite healthSprite; 
+    private Sprite bossSprite;
     /**
         Creates a new ResourceManager with the specified
         GraphicsConfiguration.
@@ -181,6 +180,9 @@ public class ResourceManager {
                 else if (ch == '3') {
                 	addSprite(newMap, otherSprite, x, y);
                 }
+                else if(ch == '4') {
+                	addSprite(newMap, bossSprite, x, y);
+                }
                 else if (ch == 'w') {
                 	addSprite(newMap, waterSprite, x, y);
                 }
@@ -275,6 +277,10 @@ public class ResourceManager {
             loadImage("fly3.png"),
             loadImage("grub1.png"),
             loadImage("grub2.png"),
+            loadImage("cupCake_boss1.png"),
+            loadImage("cupCake_boss2.png"),
+            loadImage("cupCake_boss_attack1.png"),
+            loadImage("cupCake_boss_attack2.png"),
         };
 
         images[1] = new Image[images[0].length];
@@ -293,6 +299,8 @@ public class ResourceManager {
         Animation[] playerAnim = new Animation[4];
         Animation[] flyAnim = new Animation[4];
         Animation[] grubAnim = new Animation[4];
+        Animation[] bossAnim = new Animation[4];
+        Animation[] bossAttackAnim = new Animation[4];
         for (int i=0; i<4; i++) {
             playerAnim[i] = createPlayerAnim(
                 images[i][0], images[i][1], images[i][2]);
@@ -300,8 +308,12 @@ public class ResourceManager {
                 images[i][3], images[i][4], images[i][5]);
             grubAnim[i] = createGrubAnim(
                 images[i][6], images[i][7]);
+            bossAnim[i] = createBossAnim(
+            		images[i][8], images[i][9]);
+            bossAttackAnim[i] = createBossAttackAnim(images[i][10],images[i][11]);
+
         }
-        
+      
         //make the two jumping animations
         Image[][] jumpImages=new Image[2][];
         jumpImages[0]= new Image[] {
@@ -376,6 +388,16 @@ public class ResourceManager {
         grubSprite.addAnimation("deadLeft", grubAnim[2]);
         grubSprite.addAnimation("deadRight", grubAnim[3]);
         
+        bossSprite = new Boss("left",bossAnim[0]);
+        bossSprite.addAnimation("right", bossAnim[1]);
+        bossSprite.addAnimation("deadLeft", bossAnim[2]);
+        bossSprite.addAnimation("deadRight", bossAnim[3]);
+        
+        bossSprite.addAnimation("bossAttack_Left", bossAttackAnim[0]);
+        bossSprite.addAnimation("bossAttack_Right", bossAttackAnim[1]);
+        bossSprite.addAnimation("bossDead_Left", bossAttackAnim[2]);
+        bossSprite.addAnimation("bossDead_Right", bossAttackAnim[3]);
+
     }
 
 
@@ -412,7 +434,19 @@ public class ResourceManager {
         return anim;
     }
 
+    private Animation createBossAnim(Image img1, Image img2) {
+        Animation anim = new Animation();
+        anim.addFrame(img1, 1000);
+        anim.addFrame(img2, 100);
+        return anim;
+    }
 
+    private Animation createBossAttackAnim(Image img1, Image img2) {
+        Animation anim = new Animation();
+        anim.addFrame(img1, 600);
+        anim.addFrame(img2, 600);
+        return anim;
+    }
     private void loadPowerUpSprites() {
         // create "goal" sprite
         Animation anim = new Animation();
