@@ -70,19 +70,21 @@ public class Animation {
         Updates this animation's current image (frame), if
         neccesary.
     */
-    public synchronized void update(long elapsedTime) {
-        if (frames.size() > 1) {
-            animTime += elapsedTime;
+    public synchronized boolean update(long elapsedTime) {
+    	int oldFrameIndex = currFrameIndex;
+    	if (frames.size() > 1) {
+    		animTime += elapsedTime;
 
-            if (animTime >= totalDuration) {
-                animTime = animTime % totalDuration;
-                currFrameIndex = 0;
-            }
+    		if (animTime >= totalDuration) {
+    			animTime = animTime % totalDuration;
+    			currFrameIndex = 0;
+    		}
 
-            while (animTime > getFrame(currFrameIndex).endTime) {
-                currFrameIndex++;
-            }
-        }
+    		while (animTime > getFrame(currFrameIndex).endTime) {
+    			currFrameIndex++;
+    		}
+    	}
+    	return oldFrameIndex>currFrameIndex;
     }
 
 
@@ -103,7 +105,6 @@ public class Animation {
     private AnimFrame getFrame(int i) {
         return (AnimFrame)frames.get(i);
     }
-
 
     private class AnimFrame {
 
