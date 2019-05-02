@@ -188,12 +188,14 @@ public class GameManager extends GameCore {
             	velocityX=0;
             	player.setVelocityY(1);
             	player.setIsSmashing(true);
+            } else if (player.isOnGround() && player.getIsSmashing()){
+            	player.setIsSmashing(false);
             }
             if (jump.isPressed()) {
             	if (player.isOnGround()) {
                 	soundManager.play(boopSound);
                 	player.setIsRolling(false);
-            	}
+                }
             	player.jump(false);
             }
             player.setVelocityX(velocityX);
@@ -501,7 +503,7 @@ public class GameManager extends GameCore {
             creature.collideVertical();
         }
         if (creature instanceof Player) {
-            boolean canKill = (oldY < creature.getY());
+        	boolean canKill = (oldY < creature.getY()) && ((Player)creature).getIsSmashing();
             checkPlayerCollision((Player)creature, canKill);
         }
 
@@ -538,6 +540,27 @@ public class GameManager extends GameCore {
                 // player dies!
                 player.setState(Creature.STATE_DYING);
                 soundManager.play(playerDyingSound);
+            	 float dx = badguy.getVelocityX();
+                //player dies!
+                //player.setState(Creature.STATE_DYING);
+            	int damageCount = 1;
+            	if(player.getHealth() > 1) {
+            		player.setHealth(player.getHealth()- damageCount);
+            		  
+                      if (dx < 0) {
+                          badguy.setVelocityX(Math.abs(dx));
+                          badguy.setX(player.getX()+player.getWidth());
+                      } else {
+                    	  badguy.setVelocityX(-dx);
+                    	  badguy.setX(player.getX()-badguy.getWidth());
+                      }
+                      
+            	}
+            	else {
+            		player.setState(Creature.STATE_DYING);
+            		soundManager.play(playerDyingSound);
+            	}
+            	
                 
             	
             }

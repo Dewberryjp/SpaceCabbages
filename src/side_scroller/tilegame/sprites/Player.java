@@ -19,8 +19,7 @@ public class Player extends Creature implements Cloneable {
     	onGround=true;
     	isRolling=false;
     	isSmashing=false;
-    	state=STATE_NORMAL;
-    }
+    	state=STATE_NORMAL;    }
     
     public Object clone() throws CloneNotSupportedException {
     	Player p=(Player)super.clone();
@@ -198,5 +197,9 @@ public class Player extends Creature implements Cloneable {
 	}
 	public void setIsRolling(boolean isRolling) {
 		this.isRolling=isRolling;
+	}
+	
+	public boolean getIsSmashing() {
+		return this.isSmashing;
 	}
 }
