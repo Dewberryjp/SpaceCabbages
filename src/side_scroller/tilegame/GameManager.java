@@ -478,7 +478,8 @@ public class GameManager extends GameCore {
             creature.collideHorizontal();
         }
         if (creature instanceof Player) {
-            checkPlayerCollision((Player)creature, false);
+        	boolean canKill=((Player)creature).getIsRolling();
+            checkPlayerCollision((Player)creature, canKill);
         }
 
         // change y
@@ -504,6 +505,11 @@ public class GameManager extends GameCore {
         }
         if (creature instanceof Player) {
         	boolean canKill = (oldY < creature.getY()) && ((Player)creature).getIsSmashing();
+        	if(((Player)creature).getIsRolling()) {
+        		canKill=true;
+        		
+        	}
+        	
             checkPlayerCollision((Player)creature, canKill);
         }
 
@@ -534,11 +540,11 @@ public class GameManager extends GameCore {
                 soundManager.play(mobDyingSound);
                 badguy.setState(Creature.STATE_DYING);
                 player.setY(badguy.getY() - player.getHeight());
-                player.jump(true);
+                player.jump(true);          
             }
             else {
                 // player dies!
-                player.setState(Creature.STATE_DYING);
+                //player.setState(Creature.STATE_DYING);
                 soundManager.play(playerDyingSound);
             	 float dx = badguy.getVelocityX();
                 //player dies!
@@ -564,7 +570,9 @@ public class GameManager extends GameCore {
                 
             	
             }
+           
         }
+        
     }
 
 

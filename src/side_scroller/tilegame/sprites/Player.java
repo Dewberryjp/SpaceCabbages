@@ -140,6 +140,10 @@ public class Player extends Creature implements Cloneable {
     	if(!onGround) {
     		isRolling=false;
     	}
+    	if (getVelocityX() == 0) {
+    		isRolling=false;
+    		
+    	}
     	if (getVelocityX() < 0) {
     		if (onGround) {
     			animName = "left";
@@ -176,6 +180,12 @@ public class Player extends Creature implements Cloneable {
     		animName="deadRight";
     		
     	}
+    	if(!isRolling&&animName.equals("rollRight")) {
+    		animName="right";
+    	}
+    	if(!isRolling&&animName.equals("rollLeft")) {
+    		animName="left";
+    	}
     	return animName;
     }
 
@@ -201,5 +211,8 @@ public class Player extends Creature implements Cloneable {
 	
 	public boolean getIsSmashing() {
 		return this.isSmashing;
+	}
+	public boolean getIsRolling() {
+		return isRolling;
 	}
 }
