@@ -30,7 +30,7 @@ public class Creature extends Sprite implements Cloneable {
     	super(name,anim);
     	state = STATE_NORMAL;
     	stateTime=0;
-    	health = 100;
+    
     }
     
     public Object clone() throws CloneNotSupportedException {

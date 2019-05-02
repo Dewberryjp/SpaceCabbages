@@ -50,7 +50,8 @@ public class GameManager extends GameCore {
     private Sound rollSound;
     private Sound tittyJuiceSound;
     private Sound ultimateSound;
-    
+	private Sound powerupSound;
+	
     private InputManager inputManager;
     private TileMapRenderer renderer;
     
@@ -59,6 +60,8 @@ public class GameManager extends GameCore {
     private GameAction moveRight;
     private GameAction jump;
     private GameAction exit;
+
+
 
 
     public void init() {
@@ -73,9 +76,9 @@ public class GameManager extends GameCore {
 
         // load resources
         renderer = new TileMapRenderer();
-        renderer.setBackground(
-            resourceManager.loadImage("background.png"));
-        
+        //renderer.setBackground(
+        //   resourceManager.loadImage("background.png"));
+       
 
         // load first map
         map = resourceManager.loadNextMap();
@@ -95,7 +98,7 @@ public class GameManager extends GameCore {
         rollSound = soundManager.getSound("sounds/roll.wav");
         tittyJuiceSound = soundManager.getSound("sounds/TittyJuice.wav");
         ultimateSound = soundManager.getSound("sounds/ultMove.wav"); 
-
+        powerupSound = soundManager.getSound("sounds/PowerUp.wav"); 
         // start music
         midiPlayer = new MidiPlayer();
         Sequence sequence =
@@ -298,7 +301,7 @@ public class GameManager extends GameCore {
             map = resourceManager.reloadMap();
             return;
         }
-
+        map.getLife().update(elapsedTime);
         // get keyboard/mouse input
         checkInput(elapsedTime);
 
@@ -321,6 +324,7 @@ public class GameManager extends GameCore {
             }
             // normal update
             sprite.update(elapsedTime);
+            
         }
     }
 
@@ -457,9 +461,14 @@ public class GameManager extends GameCore {
       
         if (powerUp instanceof PowerUp.Star) {
             // do something here, like give the player points
-        	int keyCount = 1;
-        	player.setCurrentKeys(player.getCurrentKeys() + keyCount);
-            soundManager.play(prizeSound);
+        	
+            if(player.getCurrentKeys() > 9) {
+            	System.out.println(player.getCurrentKeys());
+            } else {
+            	int keyCount = 1;
+            	player.setCurrentKeys(player.getCurrentKeys() + keyCount);
+                soundManager.play(prizeSound);
+            }
         }
         else if (powerUp instanceof PowerUp.Music) {
             // change the music
@@ -476,8 +485,16 @@ public class GameManager extends GameCore {
         }
         else if(powerUp instanceof PowerUp.Water ) {
         	//add more health
-        	int waterCount = 1;
-        	player.setHealth(player.getHealth()+ waterCount);
+        	if(player.getHealth() > 2) {
+        		System.out.println(player.getHealth());
+        	} else {
+        		int waterCount = 1;
+            	player.setHealth(player.getHealth()+ waterCount);
+            	System.out.println(player.getHealth());
+            	soundManager.play(powerupSound);
+        	}
+        	
+        	
         	//adding player will increase speed 2x
         	
         	

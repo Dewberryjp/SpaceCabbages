@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import javax.swing.ImageIcon;
 
 import side_scroller.graphics.*;
-
-import side_scroller.graphics.Sprite;
 import side_scroller.tilegame.sprites.*;
 
 
@@ -33,7 +31,11 @@ public class ResourceManager {
     private Sprite flySprite;
     private Sprite otherSprite;
     private Sprite waterSprite;
-    private Sprite healthSprite; 
+ 
+    
+    private Animation life;
+    private Animation key;
+    
     /**
         Creates a new ResourceManager with the specified
         GraphicsConfiguration.
@@ -43,10 +45,13 @@ public class ResourceManager {
         loadTileImages();
         loadCreatureSprites();
         loadPowerUpSprites();
+        loadLifeKeyImages();
     }
 
 
-    /**
+   
+
+	/**
         Gets an image from the images/ directory.
     */
     public Image loadImage(String name) {
@@ -127,6 +132,7 @@ public class ResourceManager {
     private TileMap loadMap(String filename)
         throws IOException
     {
+    	
         ArrayList lines = new ArrayList();
         int width = 0;
         int height = 0;
@@ -152,6 +158,13 @@ public class ResourceManager {
         // parse the lines to create a TileEngine
         height = lines.size();
         TileMap newMap = new TileMap(width, height);
+        
+        
+        newMap.setLife(life);
+        newMap.setKey(key);
+        String getNum = filename.substring(8,9);
+        newMap.setBackground(loadImage("background"+ getNum +".png"));
+     
         for (int y=0; y<height; y++) {
             String line = (String)lines.get(y);
             for (int x=0; x<line.length(); x++) {
@@ -236,6 +249,7 @@ public class ResourceManager {
 
             // add it to the map
             map.addSprite(sprite);
+            
         }
     }
 
@@ -276,11 +290,13 @@ public class ResourceManager {
             loadImage("fly3.png"),
             loadImage("grub1.png"),
             loadImage("grub2.png"),
+         
         };
 
         images[1] = new Image[images[0].length];
         images[2] = new Image[images[0].length];
         images[3] = new Image[images[0].length];
+  
         for (int i=0; i<images[0].length; i++) {
             // right-facing images
             images[1][i] = getMirrorImage(images[0][i]);
@@ -294,6 +310,7 @@ public class ResourceManager {
         Animation[] playerAnim = new Animation[4];
         Animation[] flyAnim = new Animation[4];
         Animation[] grubAnim = new Animation[4];
+      
         for (int i=0; i<4; i++) {
             playerAnim[i] = createPlayerAnim(
                 images[i][0], images[i][1], images[i][2]);
@@ -301,6 +318,7 @@ public class ResourceManager {
                 images[i][3], images[i][4], images[i][5]);
             grubAnim[i] = createGrubAnim(
                 images[i][6], images[i][7]);
+
         }
         
         //make the two jumping animations
@@ -377,6 +395,8 @@ public class ResourceManager {
         grubSprite.addAnimation("deadLeft", grubAnim[2]);
         grubSprite.addAnimation("deadRight", grubAnim[3]);
         
+      
+        
     }
 
 
@@ -412,8 +432,7 @@ public class ResourceManager {
         anim.addFrame(img2, 250);
         return anim;
     }
-
-
+  
     private void loadPowerUpSprites() {
         // create "goal" sprite
         Animation anim = new Animation();
@@ -455,20 +474,20 @@ public class ResourceManager {
         anim = new Animation();
         anim.addFrame(loadImage("WaterDrop.png"), 100);
         waterSprite = new PowerUp.Water("right", anim);
-        
-        //create the "health bar" sprite
-       
-        
-        anim = new Animation();
-        anim.addFrame(loadImage("life1.png"), 150);
-        anim.addFrame(loadImage("life2.png"), 150);
-        anim.addFrame(loadImage("life3.png"), 150);
-        anim.addFrame(loadImage("life2.png"), 150);
-        anim.addFrame(loadImage("life3.png"), 150);
-        anim.addFrame(loadImage("life1.png"), 150);
-        healthSprite = new Sprite("right", anim);
        
    
     }
+    private void loadLifeKeyImages() {
+    	life = new Animation();
+    	life.addFrame(loadImage("life1.png"), 100);
+        life.addFrame(loadImage("life2.png"), 100);
+        life.addFrame(loadImage("life3.png"), 100);
+        key = new Animation();
+    	key.addFrame(loadImage("key1.png"), 150);
+    	key.addFrame(loadImage("key2.png"), 150);
+    	key.addFrame(loadImage("key3.png"), 150);
+
+    }
+
 
 }

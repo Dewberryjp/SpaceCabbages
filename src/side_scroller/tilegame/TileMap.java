@@ -4,6 +4,7 @@ import java.awt.Image;
 
 import java.util.LinkedList;
 
+import side_scroller.graphics.Animation;
 import side_scroller.graphics.Sprite;
 import side_scroller.tilegame.sprites.PowerUp;
 
@@ -22,7 +23,12 @@ public class TileMap {
     private Sprite player;
     private PowerUp powerup;
     private int x,y; 
-
+    // life
+    // background
+    private Animation life;
+    private Animation key; 
+    private Image background;
+   
     /**
         Creates a new TileMap with the specified width and
         height (in number of tiles) of the map.
@@ -30,6 +36,24 @@ public class TileMap {
     public TileMap(int width, int height) {
         tiles = new Image[width][height];
         sprites = new LinkedList();
+    }
+    public Animation getKey() {
+    	return key;
+    }
+    public void setKey(Animation key) {
+    	this.key = key; 
+    }
+    public Animation getLife() {
+		return life;
+    }
+    public void setLife(Animation life) {
+    	this.life = life; 
+    }
+    public Image getBackground() {
+    	return background;
+    }
+    public void setBackground(Image background) {
+    	this.background = background; 
     }
 
     public int getX() {
