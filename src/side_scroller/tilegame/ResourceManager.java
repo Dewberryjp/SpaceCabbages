@@ -162,8 +162,9 @@ public class ResourceManager {
         
         newMap.setLife(life);
         newMap.setKey(key);
+        
         String getNum = filename.substring(8,9);
-        newMap.setBackground(loadImage("background"+ getNum +".png"));
+        newMap.setBackground(loadImage("back"+ getNum +".png"));
      
         for (int y=0; y<height; y++) {
             String line = (String)lines.get(y);
