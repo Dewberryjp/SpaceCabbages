@@ -12,11 +12,13 @@ public class Player extends Creature implements Cloneable {
     private static final float JUMP_SPEED = -.95f;
     public static final int STATE_STOMPING=3;
     private boolean onGround;
+	private boolean smash;
 
     public Player(String name, Animation anim) {
     	super(name,anim);
     	onGround=true;
     	state=STATE_NORMAL;
+    	smash=false;
     }
     
     public Object clone() throws CloneNotSupportedException {
@@ -189,6 +191,13 @@ public class Player extends Creature implements Cloneable {
 		s+=(this.anim==null?"animNull":"good");
 		s+=super.toString();
 		return s;
+	}
+
+	public void setSmash(boolean b) {
+		this.smash=b;
+	}
+	public boolean getSmash() {
+		return this.smash;
 	}
 
 }

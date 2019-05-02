@@ -154,6 +154,9 @@ public class GameManager extends GameCore {
             if (smash.isPressed() && !player.isOnGround()) {
             	velocityX=0;
             	player.setVelocityY(1);
+            	player.setSmash(true);
+            } else if (player.isOnGround() && player.getSmash()){
+            	player.setSmash(false);
             }
             if (jump.isPressed()) {
             	if (player.isOnGround())
@@ -388,7 +391,7 @@ public class GameManager extends GameCore {
             creature.collideVertical();
         }
         if (creature instanceof Player) {
-            boolean canKill = (oldY < creature.getY());
+        	boolean canKill = (oldY < creature.getY()) && ((Player)creature).getSmash();
             checkPlayerCollision((Player)creature, canKill);
             
         }
@@ -419,7 +422,7 @@ public class GameManager extends GameCore {
             if (canKill) { 
                 // kill the badguy and make player bounce
                 soundManager.play(mobDyingSound);
-               // badguy.setState(Creature.STATE_DYING);
+                badguy.setState(Creature.STATE_DYING);
                 player.setY(badguy.getY() - player.getHeight());
                 player.jump(false);
             }
@@ -433,7 +436,12 @@ public class GameManager extends GameCore {
             		  
                       if (dx < 0) {
                           badguy.setVelocityX(Math.abs(dx));
+                          badguy.setX(player.getX()+player.getWidth());
+                      } else {
+                    	  badguy.setVelocityX(-dx);
+                    	  badguy.setX(player.getX()-badguy.getWidth());
                       }
+                      
             	}
             	else {
             		player.setState(Creature.STATE_DYING);
