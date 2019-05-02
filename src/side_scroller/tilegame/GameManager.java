@@ -2,12 +2,18 @@ package side_scroller.tilegame;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
 import java.util.Iterator;
 
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.sampled.AudioFormat;
-
+import javax.swing.AbstractButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 
 import side_scroller.graphics.Sprite;
 import side_scroller.input.*;
@@ -58,7 +64,11 @@ public class GameManager extends GameCore {
     private GameAction moveLeft;
     private GameAction moveRight;
     private GameAction jump;
-    private GameAction exit;
+    private GameAction pauseKeyPress;
+    
+    boolean paused;
+    boolean soundSelection = true;
+    boolean musicSelection = true;
 
 
     public void init() {
@@ -122,8 +132,7 @@ public class GameManager extends GameCore {
         	GameAction.DETECT_INITAL_PRESS_ONLY);
         jump = new GameAction("jump",
             GameAction.DETECT_INITAL_PRESS_ONLY);
-        exit = new GameAction("exit",
-            GameAction.DETECT_INITAL_PRESS_ONLY);
+        pauseKeyPress = new GameAction("pauseKeyPress",GameAction.DETECT_INITAL_PRESS_ONLY);
         
         inputManager = new InputManager(
             screen.getFullScreenWindow());
@@ -132,16 +141,18 @@ public class GameManager extends GameCore {
         inputManager.mapToKey(moveLeft, KeyEvent.VK_LEFT);
         inputManager.mapToKey(moveRight, KeyEvent.VK_RIGHT);
         inputManager.mapToKey(jump, KeyEvent.VK_SPACE);
-        inputManager.mapToKey(exit, KeyEvent.VK_ESCAPE);
+        inputManager.mapToKey(pauseKeyPress, KeyEvent.VK_ESCAPE);
     }
 
 
     private void checkInput(long elapsedTime) {
 
-        if (exit.isPressed()) {
-            stop();
+    	//Pauses the game if the player presses the Esc key
+        if (pauseKeyPress.isPressed()) {
+            paused = !paused;
+            jump.reset(); //Ensures game doesn't have the player jump if he/she presses SPACE while paused
         }
-
+        if (!paused) {
         Player player = (Player)map.getPlayer();
         if (player.isAlive()) {
             float velocityX = 0;
@@ -162,13 +173,13 @@ public class GameManager extends GameCore {
             }
             player.setVelocityX(velocityX);
         }
+        }
 
     }
 
 
     public void draw(Graphics2D g) {
-        renderer.draw(g, map,
-            screen.getWidth(), screen.getHeight());
+    		renderer.draw(g, map, screen.getWidth(), screen.getHeight());
     }
 
 
@@ -290,38 +301,116 @@ public class GameManager extends GameCore {
         in the current map.
     */
     public void update(long elapsedTime) {
-        Creature player = (Creature)map.getPlayer();
+    	if (!paused) { //Checks if game is not paused
+	        Creature player = (Creature)map.getPlayer();
+	
+	
+	        // player is dead! start map over
+	        if (player.getState() == Creature.STATE_DEAD) {
+	            map = resourceManager.reloadMap();
+	            return;
+	        }
+	
+	        // get keyboard/mouse input
+	        checkInput(elapsedTime);
+	
+	        // update player
+	        updateCreature(player, elapsedTime);
+	        player.update(elapsedTime);
+	
+	        // update other sprites
+	        Iterator i = map.getSprites(); 	
+	        while (i.hasNext()) {
+	            Sprite sprite = (Sprite)i.next();
+	            if (sprite instanceof Creature) {
+	                Creature creature = (Creature)sprite;
+	                if (creature.getState() == Creature.STATE_DEAD) {
+	                    i.remove();
+	                }
+	                else {
+	                    updateCreature(creature, elapsedTime);
+	                }
+	            }
+	            // normal update
+	            sprite.update(elapsedTime);
+	        }
+    	}
+    	
+    	else { //If game is paused
+    		Object[] options = new Object[4]; //Array of pause menu buttons
+    		options[0]=new JCheckBox("Sound");
+    		if (soundSelection == true) { //If player wants sound
+    			((JCheckBox)options[0]).setSelected(true);
+    		}
+    		
+    		options[1]=new JCheckBox("Music");
+    		if (musicSelection == true) { //If player wants music
+    			((JCheckBox)options[1]).setSelected(true);
+    		}
+    		options[2]="Resume";
+    		options[3]="Exit";
 
+    		
+    		checkInput(elapsedTime);
 
-        // player is dead! start map over
-        if (player.getState() == Creature.STATE_DEAD) {
-            map = resourceManager.reloadMap();
-            return;
-        }
+    		//Shows instructions and controls to the player on the pause menu
+    		int pauseMenuSelection =JOptionPane.showOptionDialog(screen.getFullScreenWindow(), 
+    				"\tInstructions: "
+    				+ "\nCollect all the keys on each level in order to open the door to the next level!"
+    				+ "\n"
+    				+ "\nControls: "
+    				+ "\nA - Move left"
+    				+ "\nD - Move right"
+    				+ "\nSPACE - Jump"
+    				+ "\nS - Smash",
+    				"Pause Menu",
+    				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+    		
+    		//Turns sound off if sound is not selected
+    		JCheckBox soundSelector = (JCheckBox)options[0];
+    		soundSelection = soundSelector.isSelected();
+    		if ((soundSelection == false)) {
+    			soundManager.setPaused(true);
+    		}
+    		//Turns sound on if sound is selected
+    		else {
+    			soundManager.setPaused(false);
+    		}
+  
+    		//Turns music off if music is not selected
+    		JCheckBox musicSelector = (JCheckBox)options[1];
+    		musicSelection = musicSelector.isSelected();
+    		Sequencer sequencer = midiPlayer.getSequencer();
+    		if (musicSelection == false) {
+    	        if (sequencer != null) {
+    	            sequencer.stop();
+    	        }
+    		}
+    	    
+    		//Turns music on if music is selected
+    	    else {
+    	    	if (sequencer != null) {
+    	    		sequencer.start();
+    	    	}
+    	    }
+    		
+    		//If player presses "Resume", unpause the game
+    		if (pauseMenuSelection == 2) paused = false;
 
-        // get keyboard/mouse input
-        checkInput(elapsedTime);
+    		//If player presses "Exit", exit the game
+    		else if (pauseMenuSelection == 3) {
+    			stop();
+    		}
+    		
+    		//If player presses "
+    		else {
+    			paused = false;
+    		}
+    		
 
-        // update player
-        updateCreature(player, elapsedTime);
-        player.update(elapsedTime);
+    		
 
-        // update other sprites
-        Iterator i = map.getSprites();
-        while (i.hasNext()) {
-            Sprite sprite = (Sprite)i.next();
-            if (sprite instanceof Creature) {
-                Creature creature = (Creature)sprite;
-                if (creature.getState() == Creature.STATE_DEAD) {
-                    i.remove();
-                }
-                else {
-                    updateCreature(creature, elapsedTime);
-                }
-            }
-            // normal update
-            sprite.update(elapsedTime);
-        }
+    	}
     }
 
 
@@ -363,7 +452,6 @@ public class GameManager extends GameCore {
         }
         if (creature instanceof Player) {
             checkPlayerCollision((Player)creature, false);
-           
         }
 
         // change y
@@ -390,7 +478,6 @@ public class GameManager extends GameCore {
         if (creature instanceof Player) {
             boolean canKill = (oldY < creature.getY());
             checkPlayerCollision((Player)creature, canKill);
-            
         }
 
     }
@@ -403,7 +490,6 @@ public class GameManager extends GameCore {
     */
     public void checkPlayerCollision(Player player,
         boolean canKill)
-    
     {
         if (!player.isAlive()) {
             return;
@@ -419,27 +505,14 @@ public class GameManager extends GameCore {
             if (canKill) { 
                 // kill the badguy and make player bounce
                 soundManager.play(mobDyingSound);
-               // badguy.setState(Creature.STATE_DYING);
+                badguy.setState(Creature.STATE_DYING);
                 player.setY(badguy.getY() - player.getHeight());
-                player.jump(false);
+                player.jump(true);
             }
             else {
-            	 float dx = badguy.getVelocityX();
-                //player dies!
-                //player.setState(Creature.STATE_DYING);
-            	int damageCount = 1;
-            	if(player.getHealth() > 1) {
-            		player.setHealth(player.getHealth()- damageCount);
-            		  
-                      if (dx < 0) {
-                          badguy.setVelocityX(Math.abs(dx));
-                      }
-            	}
-            	else {
-            		player.setState(Creature.STATE_DYING);
-            		soundManager.play(playerDyingSound);
-            	}
-            	
+                // player dies!
+                player.setState(Creature.STATE_DYING);
+                soundManager.play(playerDyingSound);
                 
             	
             }
@@ -457,8 +530,6 @@ public class GameManager extends GameCore {
       
         if (powerUp instanceof PowerUp.Star) {
             // do something here, like give the player points
-        	int keyCount = 1;
-        	player.setCurrentKeys(player.getCurrentKeys() + keyCount);
             soundManager.play(prizeSound);
         }
         else if (powerUp instanceof PowerUp.Music) {
@@ -476,12 +547,11 @@ public class GameManager extends GameCore {
         }
         else if(powerUp instanceof PowerUp.Water ) {
         	//add more health
-        	int waterCount = 1;
-        	player.setHealth(player.getHealth()+ waterCount);
+        	
         	//adding player will increase speed 2x
         	
         	
         }
     }
-
+    
 }
