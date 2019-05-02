@@ -366,7 +366,8 @@ public class ResourceManager {
         playerSprite.addAnimation("deadRight", playerAnim[3]);
         playerSprite.addAnimation("jumpLeft", jumpLeft);
         playerSprite.addAnimation("jumpRight", jumpRight);
-        
+        playerSprite.addAnimation("rollLeft", rollLeft);
+        playerSprite.addAnimation("rollRight", rollRight);
         flySprite = new Fly("left",flyAnim[0]);
         flySprite.addAnimation("right", flyAnim[1]);
         flySprite.addAnimation("deadLeft", flyAnim[2]);

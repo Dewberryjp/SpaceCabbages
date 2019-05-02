@@ -60,6 +60,8 @@ public class GameManager extends GameCore {
     private GameAction jump;
     private GameAction exit;
 
+	private GameAction roll;
+
 
     public void init() {
         super.init();
@@ -124,7 +126,9 @@ public class GameManager extends GameCore {
             GameAction.DETECT_INITAL_PRESS_ONLY);
         exit = new GameAction("exit",
             GameAction.DETECT_INITAL_PRESS_ONLY);
-        
+        roll = new GameAction("roll",
+        	GameAction.DETECT_INITAL_PRESS_ONLY);
+        		
         inputManager = new InputManager(
             screen.getFullScreenWindow());
         inputManager.setCursor(InputManager.INVISIBLE_CURSOR);
@@ -133,6 +137,7 @@ public class GameManager extends GameCore {
         inputManager.mapToKey(moveRight, KeyEvent.VK_RIGHT);
         inputManager.mapToKey(jump, KeyEvent.VK_SPACE);
         inputManager.mapToKey(exit, KeyEvent.VK_ESCAPE);
+        inputManager.mapToKey(roll, KeyEvent.VK_SHIFT);
     }
 
 
@@ -145,22 +150,40 @@ public class GameManager extends GameCore {
         Player player = (Player)map.getPlayer();
         if (player.isAlive()) {
             float velocityX = 0;
-            if (moveLeft.isPressed()) {
+            boolean moveLeft=this.moveLeft.isPressed();
+            boolean moveRight=this.moveRight.isPressed();
+            boolean roll=this.roll.isPressed();
+            
+            
+            if (moveLeft) {
                 velocityX-=player.getMaxSpeed();
+                
             }
-            if (moveRight.isPressed()) {
+            if (moveRight) {
                 velocityX+=player.getMaxSpeed();
+                
+            }
+            if(roll &&  moveLeft) {
+            	 velocityX-=player.getMaxSpeed();
+            	player.setIsRolling(true);
+            }
+            if(roll && moveRight) {
+            	player.setIsRolling(true);
+            	velocityX+=player.getMaxSpeed();
+            	System.out.println("roll is true");
             }
             if (smash.isPressed() && !player.isOnGround()) {
             	velocityX=0;
             	player.setVelocityY(1);
-            	player.setSmash(true);
-            } else if (player.isOnGround() && player.getSmash()){
-            	player.setSmash(false);
+            	player.setIsSmashing(true);
+            } else if (player.isOnGround() && player.getIsSmashing()){
+            	player.setIsSmashing(false);
             }
             if (jump.isPressed()) {
-            	if (player.isOnGround())
+            	if (player.isOnGround()) {
                 	soundManager.play(boopSound);
+                	player.setIsRolling(false);
+                }
             	player.jump(false);
             }
             player.setVelocityX(velocityX);
@@ -391,7 +414,7 @@ public class GameManager extends GameCore {
             creature.collideVertical();
         }
         if (creature instanceof Player) {
-        	boolean canKill = (oldY < creature.getY()) && ((Player)creature).getSmash();
+        	boolean canKill = (oldY < creature.getY()) && ((Player)creature).getIsSmashing();
             checkPlayerCollision((Player)creature, canKill);
             
         }
