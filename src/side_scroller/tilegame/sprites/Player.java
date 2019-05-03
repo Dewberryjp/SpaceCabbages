@@ -10,14 +10,16 @@ import side_scroller.graphics.Animation;
 public class Player extends Creature implements Cloneable {
 
     private static final float JUMP_SPEED = -.95f;
-    public static final int STATE_STOMPING=3;
     private boolean onGround;
+    private boolean isRolling;
+    private boolean isSmashing;
 
     public Player(String name, Animation anim) {
     	super(name,anim);
     	onGround=true;
-    	state=STATE_NORMAL;
-    }
+    	isRolling=false;
+    	isSmashing=false;
+    	state=STATE_NORMAL;    }
     
     public Object clone() throws CloneNotSupportedException {
     	Player p=(Player)super.clone();
@@ -86,26 +88,7 @@ public class Player extends Creature implements Cloneable {
     public void wakeUp() {
         // do nothing
     }
-    public int getState() {
-        return state;
-    }
     
-    public void setState(int state) {
-        if (this.state != state) {
-            this.state = state;
-            stateTime = 0;
-            if (state == STATE_DYING) {
-                setVelocityX(0);
-                setVelocityY(0);
-            }
-        }
-    }
-
-    	
-    public boolean isAlive() {
-        return (state == STATE_NORMAL);
-    }
-
     /**
         Makes the player jump if the player is on the ground or
         if forceJump is true.
@@ -127,20 +110,54 @@ public class Player extends Creature implements Cloneable {
     Updates the animaton for this creature.
      */
     public void update(long elapsedTime) {
+    	String nextAnim=getNextAnim();
+    	
+    	// update the Animation
+    	if (!getAnimName().equals(nextAnim)) {
+    		switchAnimation(nextAnim);
+    		anim.start();
+    	}
+    	else {
+    		boolean switchBack=anim.update(elapsedTime);
+    		if (switchBack && isRolling) {
+    			isRolling=false;
+    			String newNextAnim=getNextAnim();
+    			switchAnimation(newNextAnim);
+    			anim.start();
+    		}
+    	}
+
+    	// update to "dead" state
+    	stateTime += elapsedTime;
+    	if (state == STATE_DYING && stateTime >= DIE_TIME) {
+    		setState(STATE_DEAD);
+    	}
+    }
+    
+    public String getNextAnim() {
     	// select the correct Animation
     	String animName=getAnimName();
+    	if(!onGround) {
+    		isRolling=false;
+    	}
+    	if (getVelocityX() == 0) {
+    		isRolling=false;
+    		
+    	}
     	if (getVelocityX() < 0) {
     		if (onGround) {
     			animName = "left";
+    		} if(isRolling&&getVelocityX() < 0) {
+    			animName="rollLeft";
     		} else {
-    			
     			animName = "jumpLeft";
     		}
     	}
     	else if (getVelocityX() > 0) {
     		if (onGround) {
-
     			animName = "right";
+    		} if(isRolling&&getVelocityX() > 0) {
+    			animName="rollRight";
     		} else {
     			animName = "jumpRight";
     		}
@@ -154,6 +171,7 @@ public class Player extends Creature implements Cloneable {
     		} else if (onGround && animName.equals("jumpLeft")) {
     			animName="left";
     		}
+    		
     	} 
     	if (state == STATE_DYING &&  animName.equals("left")) {
     		animName="deadLeft";
@@ -162,21 +180,13 @@ public class Player extends Creature implements Cloneable {
     		animName="deadRight";
     		
     	}
-
-    	// update the Animation
-    	if (!getAnimName().equals(animName)) {
-    		switchAnimation(animName);
-    		anim.start();
+    	if(!isRolling&&animName.equals("rollRight")) {
+    		animName="right";
     	}
-    	else {
-    		anim.update(elapsedTime);
+    	if(!isRolling&&animName.equals("rollLeft")) {
+    		animName="left";
     	}
-
-    	// update to "dead" state
-    	stateTime += elapsedTime;
-    	if (state == STATE_DYING && stateTime >= DIE_TIME) {
-    		setState(STATE_DEAD);
-    	}
+    	return animName;
     }
 
 	public boolean isOnGround() {
@@ -191,4 +201,19 @@ public class Player extends Creature implements Cloneable {
 		return s;
 	}
 
+	public void setIsSmashing(boolean smashing) {
+		// TODO Auto-generated method stub
+		this.isSmashing=smashing;
+	}
+	public void setIsRolling(boolean isRolling) {
+		this.isRolling=isRolling;
+	}
+	
+	public boolean getIsSmashing() {
+		return this.isSmashing;
+	}
+
+	public boolean getIsRolling() {
+		return isRolling;
+	}
 }

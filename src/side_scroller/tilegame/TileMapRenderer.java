@@ -80,12 +80,13 @@ public class TileMapRenderer {
 
 	/**
         Draws the specified TileMap.
-	 */
-	public void draw(Graphics2D g, TileMap map,
-			int screenWidth, int screenHeight)
-	{
-		Sprite player = map.getPlayer();
-		int mapWidth = tilesToPixels(map.getWidth());
+    */
+    public void draw(Graphics2D g, TileMap map,
+        int screenWidth, int screenHeight, ResourceManager rm)
+    {
+        Sprite player = map.getPlayer();
+        int mapWidth = tilesToPixels(map.getWidth());
+
 
 		// get the scrolling position of the map
 		// based on player's position
@@ -133,21 +134,34 @@ public class TileMapRenderer {
 			}
 		}
 
-		// draw player
-		g.drawImage(player.getImage(),
-				Math.round(player.getX()) + offsetX,
-				Math.round(player.getY()) + offsetY,
-				null);
-		player.setTotalKeys(10);
 
-		int imageX = 50;
+        // draw player
+        g.drawImage(player.getImage(),
+            Math.round(player.getX()) + offsetX,
+            Math.round(player.getY()) + offsetY,
+            null);
+        
+        player.setTotalKeys(10);
+        g.drawString("Level " + rm.getCurrentMap(), 300, 50);
+       
+        
+        // draw sprites
+        Iterator i = map.getSprites();
+        while (i.hasNext()) {
+            Sprite sprite = (Sprite)i.next();
+            int x = Math.round(sprite.getX()) + offsetX;
+            int y = Math.round(sprite.getY()) + offsetY;
+            g.drawImage(sprite.getImage(), x, y, null);
+
+
+		int imageX = 20;
 		int imageY = 30;
 		int keyImageX = 450;
 		int keyImageY = 30;
 		int totalKeyX = 500;
 		int totalHealth = 3; 
 		// draws keys
-		for(int i=0; i < player.getCurrentKeys(); i++ ) {
+		for(int i1=0; i1 < player.getCurrentKeys(); i1++ ) {
 			keyImageX += 20;
 			totalKeyX += 20;
 			g.drawImage(map.getKey().getImage(), keyImageX, keyImageY, null);
@@ -155,24 +169,12 @@ public class TileMapRenderer {
 		}
 		g.drawString("/ "+ player.getTotalKeys(), totalKeyX, 60);
 		// draws life
-		for(int i= 0; i<player.health; i++) {
+		for(int i1= 0; i1<player.health; i1++) {
 
 			imageX += 50;
 			g.drawImage(map.getLife().getImage(), imageX,imageY, null);
 
 		}
-
-
-
-
-		// draw sprites
-		Iterator i = map.getSprites();
-		while (i.hasNext()) {
-			Sprite sprite = (Sprite)i.next();
-			int x = Math.round(sprite.getX()) + offsetX;
-			int y = Math.round(sprite.getY()) + offsetY;
-			g.drawImage(sprite.getImage(), x, y, null);
-
 			// wake up the creature when it's on screen
 			if (sprite instanceof Creature &&
 					x >= 0 && x < screenWidth)

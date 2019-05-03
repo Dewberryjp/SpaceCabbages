@@ -19,8 +19,8 @@ JR                                                                              
 JR                                                                                                                   QJ
 JR                                                                                                                   QJ
 JR                                                                                                                   QJ
-JR        w  w                                                                                                         QJ
-JR h       w  w                                                                                                         QJ
-JR h    S w    w  S                                                                                                  333QJ
-JR h            1111     *                                                                              3 *QJ
+JR          w                                                                                                         QJ
+JR h         w                                                                                                         QJ
+JR h         w                                                                                                      333QJ
+JR h              1   *  K                                                                                         3 *QJ
 JMKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKLJ

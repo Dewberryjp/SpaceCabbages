@@ -27,6 +27,7 @@ public abstract class GameCore {
 
     private boolean isRunning;
     protected ScreenManager screen;
+    boolean paused;
 
 
     /**
@@ -49,6 +50,7 @@ public abstract class GameCore {
             screen.restoreScreen();
             lazilyExit();
         }
+        
     }
 
 
@@ -112,13 +114,26 @@ public abstract class GameCore {
         long startTime = System.currentTimeMillis();
         long currTime = startTime;
 
+
         while (isRunning) {
-            long elapsedTime =
-                System.currentTimeMillis() - currTime;
-            currTime += elapsedTime;
+        	long elapsedTime = 0;
+        	if (paused) {
+        		elapsedTime = 0;
+        	}
+        	
+        	else {
+	            elapsedTime =
+	                System.currentTimeMillis() - currTime;
+	            currTime += elapsedTime;
+        	}
 
             // update
-            update(elapsedTime);
+        	boolean newPaused = update(elapsedTime);
+        	if (paused && !newPaused) {
+        		currTime = System.currentTimeMillis();
+        	}
+        	paused = newPaused;
+
 
             // draw the screen
             Graphics2D g = screen.getGraphics();
@@ -127,10 +142,11 @@ public abstract class GameCore {
             screen.update();
 
             // don't take a nap! run as fast as possible
-            /*try {
+            try {
                 Thread.sleep(20);
             }
-            catch (InterruptedException ex) { }*/
+            catch (InterruptedException ex) { }
+           
         }
     }
 
@@ -139,8 +155,8 @@ public abstract class GameCore {
         Updates the state of the game/animation based on the
         amount of elapsed time that has passed.
     */
-    public void update(long elapsedTime) {
-        // do nothing
+    public boolean update(long elapsedTime) {
+        return false;
     }
 
 

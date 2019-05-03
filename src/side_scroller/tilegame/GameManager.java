@@ -2,12 +2,18 @@ package side_scroller.tilegame;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.awt.event.WindowEvent;
 import java.util.Iterator;
 
 import javax.sound.midi.Sequence;
 import javax.sound.midi.Sequencer;
 import javax.sound.sampled.AudioFormat;
-
+import javax.swing.AbstractButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
+import javax.swing.JLayeredPane;
+import javax.swing.JOptionPane;
+import javax.swing.WindowConstants;
 
 import side_scroller.graphics.Sprite;
 import side_scroller.input.*;
@@ -59,7 +65,13 @@ public class GameManager extends GameCore {
     private GameAction moveLeft;
     private GameAction moveRight;
     private GameAction jump;
-    private GameAction exit;
+    private GameAction pauseKeyPress;
+    
+    boolean paused;
+    boolean soundSelection = true;
+    boolean musicSelection = true;
+
+	private GameAction roll;
 
 
 
@@ -125,9 +137,11 @@ public class GameManager extends GameCore {
         	GameAction.DETECT_INITAL_PRESS_ONLY);
         jump = new GameAction("jump",
             GameAction.DETECT_INITAL_PRESS_ONLY);
-        exit = new GameAction("exit",
-            GameAction.DETECT_INITAL_PRESS_ONLY);
-        
+        pauseKeyPress = new GameAction("pauseKeyPress",GameAction.DETECT_INITAL_PRESS_ONLY);
+       
+        roll = new GameAction("roll",
+        	GameAction.DETECT_INITAL_PRESS_ONLY);
+        		
         inputManager = new InputManager(
             screen.getFullScreenWindow());
         inputManager.setCursor(InputManager.INVISIBLE_CURSOR);
@@ -135,43 +149,67 @@ public class GameManager extends GameCore {
         inputManager.mapToKey(moveLeft, KeyEvent.VK_LEFT);
         inputManager.mapToKey(moveRight, KeyEvent.VK_RIGHT);
         inputManager.mapToKey(jump, KeyEvent.VK_SPACE);
-        inputManager.mapToKey(exit, KeyEvent.VK_ESCAPE);
+        inputManager.mapToKey(pauseKeyPress, KeyEvent.VK_ESCAPE);
+        inputManager.mapToKey(roll, KeyEvent.VK_SHIFT);
     }
 
 
     private void checkInput(long elapsedTime) {
 
-        if (exit.isPressed()) {
-            stop();
+    	//Pauses the game if the player presses the Esc key
+        if (pauseKeyPress.isPressed()) {
+            paused = !paused;
+            jump.reset(); //Ensures game doesn't have the player jump if he/she presses SPACE while paused
         }
-
+        if (!paused) {
         Player player = (Player)map.getPlayer();
         if (player.isAlive()) {
             float velocityX = 0;
-            if (moveLeft.isPressed()) {
+            boolean moveLeft=this.moveLeft.isPressed();
+            boolean moveRight=this.moveRight.isPressed();
+            boolean roll=this.roll.isPressed();
+            
+            
+            if (moveLeft) {
                 velocityX-=player.getMaxSpeed();
+                
             }
-            if (moveRight.isPressed()) {
+            if (moveRight) {
                 velocityX+=player.getMaxSpeed();
+                
+            }
+            if(roll &&  moveLeft) {
+            	 velocityX-=player.getMaxSpeed();
+            	player.setIsRolling(true);
+            }
+            if(roll && moveRight) {
+            	player.setIsRolling(true);
+            	velocityX+=player.getMaxSpeed();
+            	System.out.println("roll is true");
             }
             if (smash.isPressed() && !player.isOnGround()) {
             	velocityX=0;
             	player.setVelocityY(1);
+            	player.setIsSmashing(true);
+            } else if (player.isOnGround() && player.getIsSmashing()){
+            	player.setIsSmashing(false);
             }
             if (jump.isPressed()) {
-            	if (player.isOnGround())
+            	if (player.isOnGround()) {
                 	soundManager.play(boopSound);
+                	player.setIsRolling(false);
+                }
             	player.jump(false);
             }
             player.setVelocityX(velocityX);
+        }
         }
 
     }
 
 
     public void draw(Graphics2D g) {
-        renderer.draw(g, map,
-            screen.getWidth(), screen.getHeight());
+    		renderer.draw(g, map, screen.getWidth(), screen.getHeight(), resourceManager);
     }
 
 
@@ -292,40 +330,117 @@ public class GameManager extends GameCore {
         Updates Animation, position, and velocity of all Sprites
         in the current map.
     */
-    public void update(long elapsedTime) {
-        Creature player = (Creature)map.getPlayer();
+    public boolean update(long elapsedTime) {
+    	if (!paused) { //Checks if game is not paused
+	        Creature player = (Creature)map.getPlayer();
+	
+	
+	        // player is dead! start map over
+	        if (player.getState() == Creature.STATE_DEAD) {
+	            map = resourceManager.reloadMap();
+	            return false;
+	        }
+	
+	        // get keyboard/mouse input
+	        checkInput(elapsedTime);
+	
+	        // update player
+	        updateCreature(player, elapsedTime);
+	        player.update(elapsedTime);
+	        map.getLife().update(elapsedTime);
+	        
+	        // update other sprites
+	        Iterator i = map.getSprites(); 	
+	        while (i.hasNext()) {
+	            Sprite sprite = (Sprite)i.next();
+	            if (sprite instanceof Creature) {
+	                Creature creature = (Creature)sprite;
+	                if (creature.getState() == Creature.STATE_DEAD) {
+	                    i.remove();
+	                }
+	                else {
+	                    updateCreature(creature, elapsedTime);
+	                }
+	            }
+	            // normal update
+	            sprite.update(elapsedTime);
+	        }
+    	}
+    	
+    	else { //If game is paused
+    		Object[] options = new Object[4]; //Array of pause menu buttons
+    		options[0]=new JCheckBox("Sound");
+    		if (soundSelection == true) { //If player wants sound
+    			((JCheckBox)options[0]).setSelected(true);
+    		}
+    		
+    		options[1]=new JCheckBox("Music");
+    		if (musicSelection == true) { //If player wants music
+    			((JCheckBox)options[1]).setSelected(true);
+    		}
+    		options[2]="Resume";
+    		options[3]="Exit";
 
+    		
+    		checkInput(elapsedTime);
 
-        // player is dead! start map over
-        if (player.getState() == Creature.STATE_DEAD) {
-            map = resourceManager.reloadMap();
-            return;
-        }
-        map.getLife().update(elapsedTime);
-        // get keyboard/mouse input
-        checkInput(elapsedTime);
+    		//Shows instructions and controls to the player on the pause menu
+    		int pauseMenuSelection =JOptionPane.showOptionDialog(screen.getFullScreenWindow(), 
+    				"\tInstructions: "
+    				+ "\nCollect all the keys on each level in order to open the door to the next level!"
+    				+ "\n"
+    				+ "\nControls: "
+    				+ "\nA - Move left"
+    				+ "\nD - Move right"
+    				+ "\nSPACE - Jump"
+    				+ "\nS - Smash" +
+    				"\nA or D, then SHIFT - Roll",
+    				"Pause Menu",
+    				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+    		
+    		//Turns sound off if sound is not selected
+    		JCheckBox soundSelector = (JCheckBox)options[0];
+    		soundSelection = soundSelector.isSelected();
+    		if ((soundSelection == false)) {
+    			soundManager.setPaused(true);
+    		}
+    		//Turns sound on if sound is selected
+    		else {
+    			soundManager.setPaused(false);
+    		}
+  
+    		//Turns music off if music is not selected
+    		JCheckBox musicSelector = (JCheckBox)options[1];
+    		musicSelection = musicSelector.isSelected();
+    		Sequencer sequencer = midiPlayer.getSequencer();
+    		if (musicSelection == false) {
+    	        if (sequencer != null) {
+    	            sequencer.stop();
+    	        }
+    		}
+    	    
+    		//Turns music on if music is selected
+    	    else {
+    	    	if (sequencer != null) {
+    	    		sequencer.start();
+    	    	}
+    	    }
+    		
+    		//If player presses "Resume", unpause the game
+    		if (pauseMenuSelection == 2) paused = false;
 
-        // update player
-        updateCreature(player, elapsedTime);
-        player.update(elapsedTime);
-
-        // update other sprites
-        Iterator i = map.getSprites();
-        while (i.hasNext()) {
-            Sprite sprite = (Sprite)i.next();
-            if (sprite instanceof Creature) {
-                Creature creature = (Creature)sprite;
-                if (creature.getState() == Creature.STATE_DEAD) {
-                    i.remove();
-                }
-                else {
-                    updateCreature(creature, elapsedTime);
-                }
-            }
-            // normal update
-            sprite.update(elapsedTime);
-            
-        }
+    		//If player presses "Exit", exit the game
+    		else if (pauseMenuSelection == 3) {
+    			stop();
+    		}
+    		
+    		//If player presses "X" (close pause menu)
+    		else {
+    			paused = false;
+    		}
+    
+    	}
+    	return paused;
     }
 
 
@@ -337,11 +452,74 @@ public class GameManager extends GameCore {
         long elapsedTime)
     {
 
-        // apply gravity
-        if (!creature.isFlying()) {
-            creature.setVelocityY(creature.getVelocityY() +
-                GRAVITY * elapsedTime);
-        }
+    	if (!paused) {
+	        if (creature instanceof Player && (creature.getY() < 0 || creature.getY() > 1000)) {
+	        	creature.setState(Creature.STATE_DYING);
+	        	soundManager.play(playerDyingSound);
+	        }
+	        
+	        else {
+	        // apply gravity
+		        if (!creature.isFlying()) {
+		            creature.setVelocityY(creature.getVelocityY() +
+		                GRAVITY * elapsedTime);
+		        }
+		
+		        // change x
+		        float dx = creature.getVelocityX();
+		        float oldX = creature.getX();
+		        float newX = oldX + dx * elapsedTime;
+		        Point tile =
+		            getTileCollision(creature, newX, creature.getY());
+		        if (tile == null) {
+		            creature.setX(newX);
+		        }
+		        else {
+		            // line up with the tile boundary
+		            if (dx > 0) {
+		                creature.setX(
+		                    TileMapRenderer.tilesToPixels(tile.x) -
+		                    creature.getWidth());
+		            }
+		            else if (dx < 0) {
+		                creature.setX(
+		                    TileMapRenderer.tilesToPixels(tile.x + 1));
+		            }
+		            creature.collideHorizontal();
+		        }
+		        if (creature instanceof Player) {
+		            checkPlayerCollision((Player)creature, false);
+		        }
+		
+		        // change y
+		        float dy = creature.getVelocityY();
+		        float oldY = creature.getY();
+		        float newY = oldY + dy * elapsedTime;
+		        tile = getTileCollision(creature, creature.getX(), newY);
+		        if (tile == null) {
+		            creature.setY(newY);
+		        }
+		        else {
+		            // line up with the tile boundary
+		            if (dy > 0) {
+		                creature.setY(
+		                    TileMapRenderer.tilesToPixels(tile.y) -
+		                    creature.getHeight());
+		            }
+		            else if (dy < 0) {
+		                creature.setY(
+		                    TileMapRenderer.tilesToPixels(tile.y + 1));
+		            }
+		            creature.collideVertical();
+		        }
+		        if (creature instanceof Player) {
+		        	boolean canKill = (oldY < creature.getY()) && ((Player)creature).getIsSmashing();
+		            checkPlayerCollision((Player)creature, canKill);
+		        }
+		        
+	    	}
+    	}
+
 
         // change x
         float dx = creature.getVelocityX();
@@ -366,8 +544,8 @@ public class GameManager extends GameCore {
             creature.collideHorizontal();
         }
         if (creature instanceof Player) {
-            checkPlayerCollision((Player)creature, false);
-           
+        	boolean canKill=((Player)creature).getIsRolling();
+            checkPlayerCollision((Player)creature, canKill);
         }
 
         // change y
@@ -392,9 +570,13 @@ public class GameManager extends GameCore {
             creature.collideVertical();
         }
         if (creature instanceof Player) {
-            boolean canKill = (oldY < creature.getY());
+        	boolean canKill = (oldY < creature.getY()) && ((Player)creature).getIsSmashing();
+        	if(((Player)creature).getIsRolling()) {
+        		canKill=true;
+        		
+        	}
+        	
             checkPlayerCollision((Player)creature, canKill);
-            
         }
 
     }
@@ -407,7 +589,6 @@ public class GameManager extends GameCore {
     */
     public void checkPlayerCollision(Player player,
         boolean canKill)
-    
     {
         if (!player.isAlive()) {
             return;
@@ -423,11 +604,14 @@ public class GameManager extends GameCore {
             if (canKill) { 
                 // kill the badguy and make player bounce
                 soundManager.play(mobDyingSound);
-               // badguy.setState(Creature.STATE_DYING);
+                badguy.setState(Creature.STATE_DYING);
                 player.setY(badguy.getY() - player.getHeight());
-                player.jump(false);
+                player.jump(true);          
             }
             else {
+                // player dies!
+                //player.setState(Creature.STATE_DYING);
+                soundManager.play(playerDyingSound);
             	 float dx = badguy.getVelocityX();
                 //player dies!
                 //player.setState(Creature.STATE_DYING);
@@ -437,7 +621,12 @@ public class GameManager extends GameCore {
             		  
                       if (dx < 0) {
                           badguy.setVelocityX(Math.abs(dx));
+                          badguy.setX(player.getX()+player.getWidth());
+                      } else {
+                    	  badguy.setVelocityX(-dx);
+                    	  badguy.setX(player.getX()-badguy.getWidth());
                       }
+                      
             	}
             	else {
             		player.setState(Creature.STATE_DYING);
@@ -447,7 +636,9 @@ public class GameManager extends GameCore {
                 
             	
             }
+           
         }
+        
     }
 
 
@@ -469,6 +660,8 @@ public class GameManager extends GameCore {
             	player.setCurrentKeys(player.getCurrentKeys() + keyCount);
                 soundManager.play(prizeSound);
             }
+
+            soundManager.play(prizeSound);
         }
         else if (powerUp instanceof PowerUp.Music) {
             // change the music
@@ -493,12 +686,13 @@ public class GameManager extends GameCore {
             	System.out.println(player.getHealth());
             	soundManager.play(powerupSound);
         	}
-        	
-        	
+
+        
         	//adding player will increase speed 2x
         	
         	
         }
     }
 
+    
 }
