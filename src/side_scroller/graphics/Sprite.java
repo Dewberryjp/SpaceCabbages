@@ -185,4 +185,5 @@ public class Sprite implements Cloneable {
     public String toString() {
     	return "sprite:"+animations.keySet().toString();
     }
+
 }

@@ -28,6 +28,7 @@ public class SoundManager extends ThreadPool {
     private ThreadLocal localBuffer;
     private Object pausedLock;
     private boolean paused;
+    boolean muted;
 
     /**
         Creates a new SoundManager using the maximum number of
@@ -227,7 +228,10 @@ public class SoundManager extends ThreadPool {
         Plays a sound. This method returns immediately.
     */
     public InputStream play(Sound sound) {
-        return play(sound, null, false);
+    	if (muted = false) {
+    		return play(sound, null, false);
+    	}
+    	return null;
     }
 
 
@@ -238,18 +242,20 @@ public class SoundManager extends ThreadPool {
     public InputStream play(Sound sound, SoundFilter filter,
         boolean loop)
     {
-        InputStream is;
-        if (sound != null) {
-            if (loop) {
-                is = new LoopingByteInputStream(
-                    sound.getSamples());
-            }
-            else {
-                is = new ByteArrayInputStream(sound.getSamples());
-            }
-
-            return play(is, filter);
-        }
+    	if (muted = false) {
+	        InputStream is;
+	        if (sound != null) {
+	            if (loop) {
+	                is = new LoopingByteInputStream(
+	                    sound.getSamples());
+	            }
+	            else {
+	                is = new ByteArrayInputStream(sound.getSamples());
+	            }
+	
+	            return play(is, filter);
+	        }
+    	}
         return null;
     }
 
@@ -259,7 +265,10 @@ public class SoundManager extends ThreadPool {
         returns immediately.
     */
     public InputStream play(InputStream is) {
-        return play(is, null);
+    	if (muted = false) {
+    		return play(is, null);
+    	}
+    	return null;
     }
 
 
@@ -268,12 +277,14 @@ public class SoundManager extends ThreadPool {
         sound filter. This method returns immediately.
     */
     public InputStream play(InputStream is, SoundFilter filter) {
-        if (is != null) {
-            if (filter != null) {
-                is = new FilteredSoundStream(is, filter);
-            }
-            runTask(new SoundPlayer(is));
-        }
+    	if (muted = false) {
+	        if (is != null) {
+	            if (filter != null) {
+	                is = new FilteredSoundStream(is, filter);
+	            }
+	            runTask(new SoundPlayer(is));
+	        }
+    	}
         return is;
     }
 
@@ -386,6 +397,14 @@ public class SoundManager extends ThreadPool {
             }
 
         }
+    }
+    
+    public boolean getMuted() {
+    	return muted;
+    }
+    
+    public void setMuted(boolean mute) {
+    	muted = mute;
     }
 
 }
