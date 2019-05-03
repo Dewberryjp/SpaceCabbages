@@ -8,6 +8,8 @@
 #   *       Goal
 #   1       Bad Guy 1 (grub)
 #   2       Bad Guy 2 (fly)
+#   4       Boss
+#   w       Heath Pack   
                                                                                                                    
                                                                                                                    
                                                                                                                    

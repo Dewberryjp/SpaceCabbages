@@ -11,6 +11,7 @@ public class Player extends Creature implements Cloneable {
 
     private static final float JUMP_SPEED = -.95f;
     private boolean onGround;
+
     private boolean isRolling;
     private boolean isSmashing;
 
@@ -83,7 +84,6 @@ public class Player extends Creature implements Cloneable {
         }
         super.setY(y);
     }
-
 
     public void wakeUp() {
         // do nothing
@@ -168,7 +168,7 @@ public class Player extends Creature implements Cloneable {
     			animName="jumpLeft";
     		} else if (onGround && animName.equals("jumpRight")) {
     			animName="right";
-    		} else if (onGround && animName.equals("jumpLeft")) {
+    		} else if (onGround && animName.equals("jumpLeft")) { 
     			animName="left";
     		}
     		

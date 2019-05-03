@@ -8,6 +8,7 @@
 #   *       Goal
 #   1       Bad Guy 1 (grub)
 #   2       Bad Guy 2 (fly)
+#   4       Boss
 #   w       Heath Pack                                                                                                                   
                                                                                                                    
                                                                                                                    
@@ -19,8 +20,8 @@ JR                                                                              
 JR                                                                                                                   QJ
 JR                                                                                                                   QJ
 JR                                                                                                                   QJ
-JR          w                                                                                                         QJ
-JR h         w                                                                                                         QJ
-JR h         w                                                                                                      333QJ
-JR h              1   *  K                                                                                         3 *QJ
+JR                                                                                                                   QJ
+JR                                                                                                                   QJ
+JR                                                                                                                333QJ
+JR                                                                                                                3 *QJ
 JMKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKLJ

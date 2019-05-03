@@ -22,6 +22,10 @@ public class TileMap {
     private LinkedList sprites;
     private Sprite player;
     private PowerUp powerup;
+
+
+
+
     private int x,y; 
     // life
     // background
@@ -29,6 +33,7 @@ public class TileMap {
     private Animation key; 
     private Image background;
    
+
     /**
         Creates a new TileMap with the specified width and
         height (in number of tiles) of the map.
@@ -56,9 +61,6 @@ public class TileMap {
     	this.background = background; 
     }
 
-    public int getX() {
-    	return this.x;
-    }
     /**
         Gets the width of this TileMap (number of tiles across).
     */
@@ -107,14 +109,12 @@ public class TileMap {
         return player;
     }
 
-
     /**
         Sets the player Sprite.
     */
     public void setPlayer(Sprite player) {
         this.player = player;
     }
-
 
     /**
         Adds a Sprite object to this map.

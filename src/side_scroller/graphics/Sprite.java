@@ -56,7 +56,7 @@ public class Sprite implements Cloneable {
     public String getAnimName() {
     	return animName;
     }
-    
+
     /**
         Updates this Sprite's Animation and its position based
         on the velocity.
