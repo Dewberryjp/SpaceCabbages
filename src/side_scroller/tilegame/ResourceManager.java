@@ -343,21 +343,21 @@ public class ResourceManager {
         jumpRight.addFrame(jumpImages[1][1], 150);
         jumpRight.addFrame(jumpImages[1][2], 150);
         Animation rollLeft = new Animation();
-        rollLeft.addFrame(rollImages[0][0], 100);
-        rollLeft.addFrame(rollImages[0][1], 100);
-        rollLeft.addFrame(rollImages[0][2], 100);
+        rollLeft.addFrame(rollImages[0][0], 40);
+        rollLeft.addFrame(rollImages[0][1], 40);
+        rollLeft.addFrame(rollImages[0][2], 50);
         rollLeft.addFrame(rollImages[0][3], 100);
         rollLeft.addFrame(rollImages[0][4], 100);
-        rollLeft.addFrame(rollImages[0][5], 100);
-        rollLeft.addFrame(rollImages[0][6], 100);
+        rollLeft.addFrame(rollImages[0][5], 50);
+        rollLeft.addFrame(rollImages[0][6], 50);
         Animation rollRight = new Animation();
-        rollRight.addFrame(rollImages[1][0], 100);
-        rollRight.addFrame(rollImages[1][1], 100);
-        rollRight.addFrame(rollImages[1][2], 100);
+        rollRight.addFrame(rollImages[1][0], 40);
+        rollRight.addFrame(rollImages[1][1], 40);
+        rollRight.addFrame(rollImages[1][2], 50);
         rollRight.addFrame(rollImages[1][3], 100);
         rollRight.addFrame(rollImages[1][4], 100);
-        rollRight.addFrame(rollImages[1][5], 100);
-        rollRight.addFrame(rollImages[1][6], 100);
+        rollRight.addFrame(rollImages[1][5], 50);
+        rollRight.addFrame(rollImages[1][6], 50);
         // create creature sprites
         
         playerSprite =new Player("left",playerAnim[0]);
