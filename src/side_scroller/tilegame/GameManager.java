@@ -686,13 +686,7 @@ public class GameManager extends GameCore {
             	System.out.println(player.getHealth());
             	soundManager.play(powerupSound);
         	}
-
-        
-        	//adding player will increase speed 2x
-        	
-        	
+   	
         }
-    }
-
-    
+    }  
 }
