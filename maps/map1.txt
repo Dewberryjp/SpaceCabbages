@@ -13,15 +13,15 @@
 
 
 
-                                                                       PPPPPPPPPPPo   
+                                                                       IIIIIIIIIIIo   
                                                                                 QR      
 JR                                                                         o    QR                                   QJ  
-JR          o         PPP                                                 3NO   QR                                   QJ
-JR          P    PPP   2   P        o                                      QR   QR3                        o         QJ
-JR                                  P                                      QR   QRPPPPPPP3               3PPP        QJ
-JR                                               P  P                     3QR   QR                                   QJ
-JR                w       P      3            P                            QR   QR      2        w                   QJ
+JR          o         III                                                 3NO   QR                                   QJ
+JR          I    III   2   I        o                                      QR   QR3                        o         QJ
+JR                                  I                                      QR   QRIIIIIII                 III        QJ
+JR                                               I  I                     3QR   QR       3               3           QJ
+JR                w       I      3            I                            QR   QR      2        w                   QJ
 JR                                                                         QR   QR              NKO                  QJ
 JR           o        NO                                                   QR   QR2           1NLJMO            2    QJ
-JR*          NO  1    QR               NO1   o   1NO            o      w 23QR o11           NKKLJJJMKKO 1o1 NO      *QJ
+JR*          NO  1    QR               NO1   o   1NO            o      w 23QR o11           NKKLJJJMKKO1 o 1NO      *QJ
 JMKKKKKKKKKKKLMKKKKKKKLMKKKKKKKKKKKKKKKLMKKKKKKKKKLR 3  3   3   3    2 NKKKLMKKKKKKKKKKKKKKKLJJJJJJJJJMKKKKKLMKKKKKKKLJ
