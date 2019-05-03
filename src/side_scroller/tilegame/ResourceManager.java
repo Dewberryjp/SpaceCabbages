@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Random;
+
 import javax.swing.ImageIcon;
 
 import side_scroller.graphics.*;
@@ -31,8 +33,15 @@ public class ResourceManager {
     private Sprite flySprite;
     private Sprite otherSprite;
     private Sprite waterSprite;
- 
-    
+    private Sprite healthSprite; 
+    private Boss bossSprite;
+    private Sprinkle blueSprinkle, 
+				    greenSprinkle, 
+				    yellowSprinkle, 
+				    pinkSprinkle, 
+				    orangeSprinkle;
+    private ArrayList<Sprinkle> sprinkles = new ArrayList <Sprinkle>();
+
     private Animation life;
     private Animation key;
     
@@ -196,6 +205,10 @@ public class ResourceManager {
                 else if (ch == '3') {
                 	addSprite(newMap, otherSprite, x, y);
                 }
+                else if(ch == '4') {
+                	addSprite(newMap, bossSprite, x, y); 
+        
+                }
                 else if (ch == 'w') {
                 	addSprite(newMap, waterSprite, x, y);
                 }
@@ -207,7 +220,7 @@ public class ResourceManager {
               
             }
         }
-
+        
         // add the player to the map
         Sprite player = null;
 		try {
@@ -219,7 +232,7 @@ public class ResourceManager {
         player.setX(TileMapRenderer.tilesToPixels(3));
         player.setY(0);
         newMap.setPlayer(player);
-
+               
         return newMap;
     }
 
@@ -291,8 +304,12 @@ public class ResourceManager {
             loadImage("fly3.png"),
             loadImage("grub1.png"),
             loadImage("grub2.png"),
-         
-        };
+            loadImage("cupCake_boss1.png"),
+            loadImage("cupCake_boss2.png"),
+            loadImage("cupCake_boss_attack1.png"),
+            loadImage("cupCake_boss_attack2.png")  
+         };
+
 
         images[1] = new Image[images[0].length];
         images[2] = new Image[images[0].length];
@@ -311,6 +328,9 @@ public class ResourceManager {
         Animation[] playerAnim = new Animation[4];
         Animation[] flyAnim = new Animation[4];
         Animation[] grubAnim = new Animation[4];
+        Animation[] bossAnim = new Animation[4];
+        Animation[] bossAttackAnim = new Animation[4];
+
       
         for (int i=0; i<4; i++) {
             playerAnim[i] = createPlayerAnim(
@@ -320,8 +340,12 @@ public class ResourceManager {
             grubAnim[i] = createGrubAnim(
                 images[i][6], images[i][7]);
 
+            bossAnim[i] = createBossAnim(
+            		images[i][8], images[i][9]);
+            bossAttackAnim[i] = createBossAttackAnim(images[i][10],images[i][11]);
+
         }
-        
+      
         //make the two jumping animations
         Image[][] jumpImages=new Image[2][];
         jumpImages[0]= new Image[] {
@@ -390,12 +414,43 @@ public class ResourceManager {
         flySprite = new Fly("left",flyAnim[0]);
         flySprite.addAnimation("right", flyAnim[1]);
         flySprite.addAnimation("deadLeft", flyAnim[2]);
-        flySprite.addAnimation("deadRight", flyAnim[3]);
-        
+        flySprite.addAnimation("deadRight", flyAnim[3]);        
         grubSprite = new Grub("left",grubAnim[0]);
         grubSprite.addAnimation("right", grubAnim[1]);
         grubSprite.addAnimation("deadLeft", grubAnim[2]);
         grubSprite.addAnimation("deadRight", grubAnim[3]);
+
+        //Adding Sprinkles "Animations" (Just the same picture twice)
+        blueSprinkle = new Sprinkle("bossAttack_Left",createSprinkle(loadImage("b_sprinkle.png")));
+        	blueSprinkle.addAnimation("bossAttack_Right", createSprinkle(loadImage("b_sprinkle.png")));
+        	
+        greenSprinkle = new Sprinkle("bossAttack_Left",createSprinkle(loadImage("g_sprinkle.png")));
+        	greenSprinkle.addAnimation("bossAttack_Right", createSprinkle(loadImage("g_sprinkle.png")));
+        	
+        orangeSprinkle = new Sprinkle("bossAttack_Left",createSprinkle(loadImage("o_sprinkle.png")));
+        	orangeSprinkle.addAnimation("bossAttack_Right", createSprinkle(loadImage("o_sprinkle.png")));
+        	
+        pinkSprinkle = new Sprinkle("bossAttack_Left",createSprinkle(loadImage("p_sprinkle.png")));
+        	pinkSprinkle.addAnimation("bossAttack_Right", createSprinkle(loadImage("p_sprinkle.png")));
+        	
+        yellowSprinkle = new Sprinkle("bossAttack_Left",createSprinkle(loadImage("y_sprinkle.png")));
+        	yellowSprinkle.addAnimation("bossAttack_Right", createSprinkle(loadImage("y_sprinkle.png")));
+        	
+        //Adding Sprinkles to boss ArrayList
+        this.sprinkles.add(blueSprinkle);
+        this.sprinkles.add(greenSprinkle);
+        this.sprinkles.add(orangeSprinkle);
+        this.sprinkles.add(pinkSprinkle);
+        this.sprinkles.add(yellowSprinkle);
+        //Boss regular walking animation
+        bossSprite = new Boss("left",bossAnim[0]);
+        bossSprite.addAnimation("right", bossAnim[1]);
+        bossSprite.addAnimation("deadLeft", bossAnim[2]);
+        bossSprite.addAnimation("deadRight", bossAnim[3]);
+        //Boss attacking animations
+        bossSprite.addAnimation("bossAttack_Left", bossAttackAnim[0]);//Left facing boss attack
+        bossSprite.addAnimation("bossAttack_Right", bossAttackAnim[1]);//right facing boss attack
+
         
       
         
@@ -409,9 +464,9 @@ public class ResourceManager {
         anim.addFrame(player1, 250);
         anim.addFrame(player2, 150);
         anim.addFrame(player1, 150);
-        anim.addFrame(player2, 150);
-        anim.addFrame(player3, 200);
-        anim.addFrame(player2, 150);
+        anim.addFrame(player3, 150);
+        anim.addFrame(player2, 200);
+        anim.addFrame(player1, 150);
         return anim;
     }
 
@@ -434,6 +489,28 @@ public class ResourceManager {
         anim.addFrame(img2, 250);
         return anim;
     }
+
+    private Animation createBossAnim(Image img1, Image img2) {
+        Animation anim = new Animation();
+        anim.addFrame(img1, 1000);
+        anim.addFrame(img2, 100);
+        return anim;
+    }
+
+    private Animation createBossAttackAnim(Image img1, Image img2) {
+        Animation anim = new Animation();
+        anim.addFrame(img1, 600);
+        anim.addFrame(img2, 1000);
+        return anim;
+    }
+    
+    private Animation createSprinkle(Image img1) {
+    	Animation anim = new Animation();
+        anim.addFrame(img1, 600);
+        anim.addFrame(img1, 600);
+    	return anim;
+    }
+
   
     private void loadPowerUpSprites() {
         // create "goal" sprite
@@ -497,5 +574,19 @@ public class ResourceManager {
     	return currentMap;
     }
 
+
+
+	public Sprinkle getRandomSprinkle() {
+		// TODO Auto-generated method stub
+		Random rand = new Random();
+		Sprinkle selectedSprinkle = this.sprinkles.get(rand.nextInt(sprinkles.size()));
+		try {
+			return (Sprinkle) selectedSprinkle.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 }

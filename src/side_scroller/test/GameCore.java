@@ -146,7 +146,7 @@ public abstract class GameCore {
                 Thread.sleep(20);
             }
             catch (InterruptedException ex) { }
-           
+  
         }
     }
 

@@ -159,29 +159,29 @@ public class Creature extends Sprite implements Cloneable {
     public void update(long elapsedTime) {
         // select the correct Animation
         String animName=getAnimName();
-        if (getVelocityX() < 0) {
-            animName="left";
-        }
-        else if (getVelocityX() > 0) {
-        	animName="right";
-        }
-        
-        if (state == STATE_DYING && animName.equals("left")) {
-            animName = "deadLeft";
-        }
-        else if (state == STATE_DYING && animName.equals("right")) {
-        	animName="deadRight";
-        }
-
+	        if (getVelocityX() < 0) {
+	            animName="left";
+	        }
+	        else if (getVelocityX() > 0 ) {
+	        	animName="right";
+	        }
+	        
+	        if (state == STATE_DYING && animName.equals("left")) {
+	            animName = "deadLeft";
+	        }
+	        else if (state == STATE_DYING && animName.equals("right")) {
+	        	animName="deadRight";
+	        }
+       
         // update the Animation
-        if (!animName.equals(getAnimName())) {
+        if (!animName.equals(getAnimName())) { 
         	switchAnimation(animName);
             anim.start();
         }
         else {
             anim.update(elapsedTime);
         }
-
+        
         // update to "dead" state
         stateTime += elapsedTime;
         if (state == STATE_DYING && stateTime >= DIE_TIME) {

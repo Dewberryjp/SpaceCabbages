@@ -85,6 +85,7 @@ public class TileMapRenderer {
         int screenWidth, int screenHeight, ResourceManager rm)
     {
         Sprite player = map.getPlayer();
+
         int mapWidth = tilesToPixels(map.getWidth());
 
 
@@ -145,6 +146,7 @@ public class TileMapRenderer {
         g.drawString("Level " + rm.getCurrentMap(), 300, 50);
        
         
+
         // draw sprites
         Iterator i = map.getSprites();
         while (i.hasNext()) {
