@@ -78,7 +78,7 @@ public class TileMapRenderer {
         Draws the specified TileMap.
     */
     public void draw(Graphics2D g, TileMap map,
-        int screenWidth, int screenHeight)
+        int screenWidth, int screenHeight, ResourceManager rm)
     {
         Sprite player = map.getPlayer();
         int mapWidth = tilesToPixels(map.getWidth());
@@ -133,9 +133,10 @@ public class TileMapRenderer {
             Math.round(player.getX()) + offsetX,
             Math.round(player.getY()) + offsetY,
             null);
-        g.drawString("players health: " + player.health, 50, 50);
+        g.drawString("Health: " + player.health, 10, 50);
         player.setTotalKeys(10);
-        g.drawString("number of keys collected: "+ player.getCurrentKeys()+"/"+ player.getTotalKeys(), 450, 50);
+        g.drawString("Level " + rm.getCurrentMap(), 300, 50);
+        g.drawString("Keys Collected: "+ player.getCurrentKeys()+"/"+ player.getTotalKeys(), 525, 50);
         
         // draw sprites
         Iterator i = map.getSprites();

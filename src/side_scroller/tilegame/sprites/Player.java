@@ -202,4 +202,6 @@ public class Player extends Creature implements Cloneable {
 	public boolean getIsSmashing() {
 		return this.isSmashing;
 	}
+	
+
 }

@@ -471,5 +471,9 @@ public class ResourceManager {
        
    
     }
+    
+    public int getCurrentMap() {
+    	return currentMap;
+    }
 
 }

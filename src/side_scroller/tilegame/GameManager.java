@@ -206,7 +206,7 @@ public class GameManager extends GameCore {
 
 
     public void draw(Graphics2D g) {
-    		renderer.draw(g, map, screen.getWidth(), screen.getHeight());
+    		renderer.draw(g, map, screen.getWidth(), screen.getHeight(), resourceManager);
     }
 
 
@@ -327,7 +327,8 @@ public class GameManager extends GameCore {
         Updates Animation, position, and velocity of all Sprites
         in the current map.
     */
-    public void update(long elapsedTime) {
+    public boolean update(long elapsedTime) {
+    	System.out.println("elapsedTime: " + elapsedTime);
     	if (!paused) { //Checks if game is not paused
 	        Creature player = (Creature)map.getPlayer();
 	
@@ -335,7 +336,7 @@ public class GameManager extends GameCore {
 	        // player is dead! start map over
 	        if (player.getState() == Creature.STATE_DEAD) {
 	            map = resourceManager.reloadMap();
-	            return;
+	            return false;
 	        }
 	
 	        // get keyboard/mouse input
@@ -389,7 +390,8 @@ public class GameManager extends GameCore {
     				+ "\nA - Move left"
     				+ "\nD - Move right"
     				+ "\nSPACE - Jump"
-    				+ "\nS - Smash",
+    				+ "\nS - Smash" +
+    				"\nA or D, then SHIFT - Roll",
     				"Pause Menu",
     				JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
     		
@@ -429,7 +431,7 @@ public class GameManager extends GameCore {
     			stop();
     		}
     		
-    		//If player presses "
+    		//If player presses "X" (close pause menu)
     		else {
     			paused = false;
     		}
@@ -438,6 +440,7 @@ public class GameManager extends GameCore {
     		
 
     	}
+    	return paused;
     }
 
 
@@ -449,63 +452,74 @@ public class GameManager extends GameCore {
         long elapsedTime)
     {
 
-        // apply gravity
-        if (!creature.isFlying()) {
-            creature.setVelocityY(creature.getVelocityY() +
-                GRAVITY * elapsedTime);
-        }
+    	if (!paused) {
+	        if (creature instanceof Player && (creature.getY() < 0 || creature.getY() > 1000)) {
+	        	creature.setState(Creature.STATE_DYING);
+	        	soundManager.play(playerDyingSound);
+	        }
+	        
+	        else {
+	        // apply gravity
+		        if (!creature.isFlying()) {
+		            creature.setVelocityY(creature.getVelocityY() +
+		                GRAVITY * elapsedTime);
+		        }
+		
+		        // change x
+		        float dx = creature.getVelocityX();
+		        float oldX = creature.getX();
+		        float newX = oldX + dx * elapsedTime;
+		        Point tile =
+		            getTileCollision(creature, newX, creature.getY());
+		        if (tile == null) {
+		            creature.setX(newX);
+		        }
+		        else {
+		            // line up with the tile boundary
+		            if (dx > 0) {
+		                creature.setX(
+		                    TileMapRenderer.tilesToPixels(tile.x) -
+		                    creature.getWidth());
+		            }
+		            else if (dx < 0) {
+		                creature.setX(
+		                    TileMapRenderer.tilesToPixels(tile.x + 1));
+		            }
+		            creature.collideHorizontal();
+		        }
+		        if (creature instanceof Player) {
+		            checkPlayerCollision((Player)creature, false);
+		        }
+		
+		        // change y
+		        float dy = creature.getVelocityY();
+		        float oldY = creature.getY();
+		        float newY = oldY + dy * elapsedTime;
+		        tile = getTileCollision(creature, creature.getX(), newY);
+		        if (tile == null) {
+		            creature.setY(newY);
+		        }
+		        else {
+		            // line up with the tile boundary
+		            if (dy > 0) {
+		                creature.setY(
+		                    TileMapRenderer.tilesToPixels(tile.y) -
+		                    creature.getHeight());
+		            }
+		            else if (dy < 0) {
+		                creature.setY(
+		                    TileMapRenderer.tilesToPixels(tile.y + 1));
+		            }
+		            creature.collideVertical();
+		        }
+		        if (creature instanceof Player) {
+		        	boolean canKill = (oldY < creature.getY()) && ((Player)creature).getIsSmashing();
+		            checkPlayerCollision((Player)creature, canKill);
+		        }
+		        
+	    	}
+    	}
 
-        // change x
-        float dx = creature.getVelocityX();
-        float oldX = creature.getX();
-        float newX = oldX + dx * elapsedTime;
-        Point tile =
-            getTileCollision(creature, newX, creature.getY());
-        if (tile == null) {
-            creature.setX(newX);
-        }
-        else {
-            // line up with the tile boundary
-            if (dx > 0) {
-                creature.setX(
-                    TileMapRenderer.tilesToPixels(tile.x) -
-                    creature.getWidth());
-            }
-            else if (dx < 0) {
-                creature.setX(
-                    TileMapRenderer.tilesToPixels(tile.x + 1));
-            }
-            creature.collideHorizontal();
-        }
-        if (creature instanceof Player) {
-            checkPlayerCollision((Player)creature, false);
-        }
-
-        // change y
-        float dy = creature.getVelocityY();
-        float oldY = creature.getY();
-        float newY = oldY + dy * elapsedTime;
-        tile = getTileCollision(creature, creature.getX(), newY);
-        if (tile == null) {
-            creature.setY(newY);
-        }
-        else {
-            // line up with the tile boundary
-            if (dy > 0) {
-                creature.setY(
-                    TileMapRenderer.tilesToPixels(tile.y) -
-                    creature.getHeight());
-            }
-            else if (dy < 0) {
-                creature.setY(
-                    TileMapRenderer.tilesToPixels(tile.y + 1));
-            }
-            creature.collideVertical();
-        }
-        if (creature instanceof Player) {
-        	boolean canKill = (oldY < creature.getY()) && ((Player)creature).getIsSmashing();
-            checkPlayerCollision((Player)creature, canKill);
-        }
 
     }
 
@@ -601,5 +615,6 @@ public class GameManager extends GameCore {
         	
         }
     }
+
     
 }
