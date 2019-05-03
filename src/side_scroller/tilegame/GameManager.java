@@ -328,7 +328,6 @@ public class GameManager extends GameCore {
         in the current map.
     */
     public boolean update(long elapsedTime) {
-    	System.out.println("elapsedTime: " + elapsedTime);
     	if (!paused) { //Checks if game is not paused
 	        Creature player = (Creature)map.getPlayer();
 	
