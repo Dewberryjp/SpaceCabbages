@@ -205,19 +205,12 @@ public class ResourceManager {
                 else if (ch == '3') {
                 	addSprite(newMap, otherSprite, x, y);
                 }
-                else if(ch == '4') {
+                else if (ch == '4') {
                 	addSprite(newMap, bossSprite, x, y); 
-        
                 }
                 else if (ch == 'w') {
                 	addSprite(newMap, waterSprite, x, y);
                 }
-                /**
-                 *   else if (ch == 'h') {
-                	addSprite(newMap, healthSprite, x, y);
-                }
-                 */
-              
             }
         }
         
@@ -543,10 +536,10 @@ public class ResourceManager {
         
         //create "other" sprite
         anim = new Animation();
-        anim.addFrame(loadImage("powerup1.png"), 100);
-        anim.addFrame(loadImage("powerup2.png"), 100);
-        anim.addFrame(loadImage("powerup3.png"), 100);
-        anim.addFrame(loadImage("powerup4.png"), 100);
+        anim.addFrame(loadImage("powerup5.png"), 100);
+        anim.addFrame(loadImage("powerup6.png"), 100);
+        anim.addFrame(loadImage("powerup7.png"), 100);
+        anim.addFrame(loadImage("powerup8.png"), 100);
         otherSprite = new PowerUp.Other("right",anim);
         
         //create the "water drop (health powerup)"  sprite
