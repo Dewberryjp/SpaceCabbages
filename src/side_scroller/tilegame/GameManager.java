@@ -519,8 +519,7 @@ public class GameManager extends GameCore {
 	    	}
     	}
 
-<<<<<<< HEAD
-=======
+
         // change x
         float dx = creature.getVelocityX();
         float oldX = creature.getX();
@@ -578,7 +577,6 @@ public class GameManager extends GameCore {
         	
             checkPlayerCollision((Player)creature, canKill);
         }
->>>>>>> branch 'master' of https://github.com/Dewberryjp/SpaceCabbages.git
 
     }
 

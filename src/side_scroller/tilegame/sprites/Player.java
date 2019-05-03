@@ -212,12 +212,8 @@ public class Player extends Creature implements Cloneable {
 	public boolean getIsSmashing() {
 		return this.isSmashing;
 	}
-<<<<<<< HEAD
-	
 
-=======
 	public boolean getIsRolling() {
 		return isRolling;
 	}
->>>>>>> branch 'master' of https://github.com/Dewberryjp/SpaceCabbages.git
 }
