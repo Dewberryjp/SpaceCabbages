@@ -117,19 +117,19 @@ public abstract class GameCore {
 
         while (isRunning) {
         	long elapsedTime = 0;
-        	if (paused) {
+        	//if (paused) {
         		elapsedTime = 0;
-        	}
+        //	}
         	
-        	else {
+        //	else {
 	            elapsedTime =
 	                System.currentTimeMillis() - currTime;
 	            currTime += elapsedTime;
-        	}
+        //	}
 
             // update
         	boolean newPaused = update(elapsedTime);
-        	if (paused && !newPaused) {
+        	if (paused && newPaused) {
         		currTime = System.currentTimeMillis();
         	}
         	paused = newPaused;

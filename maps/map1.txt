@@ -16,9 +16,9 @@
                                                                                 QR
 JR                     o                                                        QR                                   QJ  
 JRo               o   PPP                                                 3NO o QR                                   QJ
-JRP     3   3    PPP   2  oP            o                                 oQR   QR     o                   o         QJ
-JR                                  P   3     o  o  o                     oQR o QR    PPP                 PPP        QJ
-JR                         o                     P  P                     3QR   QR       3               3           QJ
+JRP     3   3    PPP   2  oP            o     S                           oQR   QR     o                   o         QJ
+JR                                  P   3     S  o  o                     oQR o QR    PPP                 PPP        QJ
+JR                         o                  S  P  P                     3QR   QR       3               3           QJ
 JR                w       P      3            P                           oQR o QR               o                   QJ
 JR                                                                        oQR   QR     2        NKO        2         QJ
 JR            !       NO                                                  oQR o QR             NLJMO              333QJ

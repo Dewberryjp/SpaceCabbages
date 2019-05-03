@@ -465,60 +465,7 @@ public class GameManager extends GameCore {
 		                GRAVITY * elapsedTime);
 		        }
 		
-		        // change x
-		        float dx = creature.getVelocityX();
-		        float oldX = creature.getX();
-		        float newX = oldX + dx * elapsedTime;
-		        Point tile =
-		            getTileCollision(creature, newX, creature.getY());
-		        if (tile == null) {
-		            creature.setX(newX);
-		        }
-		        else {
-		            // line up with the tile boundary
-		            if (dx > 0) {
-		                creature.setX(
-		                    TileMapRenderer.tilesToPixels(tile.x) -
-		                    creature.getWidth());
-		            }
-		            else if (dx < 0) {
-		                creature.setX(
-		                    TileMapRenderer.tilesToPixels(tile.x + 1));
-		            }
-		            creature.collideHorizontal();
-		        }
-		        if (creature instanceof Player) {
-		            checkPlayerCollision((Player)creature, false);
-		        }
-		
-		        // change y
-		        float dy = creature.getVelocityY();
-		        float oldY = creature.getY();
-		        float newY = oldY + dy * elapsedTime;
-		        tile = getTileCollision(creature, creature.getX(), newY);
-		        if (tile == null) {
-		            creature.setY(newY);
-		        }
-		        else {
-		            // line up with the tile boundary
-		            if (dy > 0) {
-		                creature.setY(
-		                    TileMapRenderer.tilesToPixels(tile.y) -
-		                    creature.getHeight());
-		            }
-		            else if (dy < 0) {
-		                creature.setY(
-		                    TileMapRenderer.tilesToPixels(tile.y + 1));
-		            }
-		            creature.collideVertical();
-		        }
-		        if (creature instanceof Player) {
-		        	boolean canKill = (oldY < creature.getY()) && ((Player)creature).getIsSmashing();
-		            checkPlayerCollision((Player)creature, canKill);
-		        }
-		        
-	    	}
-    	}
+
 
 
         // change x
@@ -578,8 +525,9 @@ public class GameManager extends GameCore {
         	
             checkPlayerCollision((Player)creature, canKill);
         }
-
+	  
     }
+    	}}
 
 
     /**
