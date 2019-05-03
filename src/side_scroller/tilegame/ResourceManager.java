@@ -5,6 +5,8 @@ import java.awt.*;
 import java.awt.geom.AffineTransform;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.Random;
+
 import javax.swing.ImageIcon;
 
 import side_scroller.graphics.*;
@@ -32,7 +34,15 @@ public class ResourceManager {
     private Sprite otherSprite;
     private Sprite waterSprite;
     private Sprite healthSprite; 
-    private Sprite bossSprite;
+    private Boss bossSprite;
+    private Sprinkle blueSprinkle, 
+				    greenSprinkle, 
+				    yellowSprinkle, 
+				    pinkSprinkle, 
+				    orangeSprinkle;
+    private ArrayList<Sprinkle> sprinkles = new ArrayList <Sprinkle>();
+
+    
     /**
         Creates a new ResourceManager with the specified
         GraphicsConfiguration.
@@ -182,7 +192,8 @@ public class ResourceManager {
                 	addSprite(newMap, otherSprite, x, y);
                 }
                 else if(ch == '4') {
-                	addSprite(newMap, bossSprite, x, y);
+                	addSprite(newMap, bossSprite, x, y); 
+        
                 }
                 else if (ch == 'w') {
                 	addSprite(newMap, waterSprite, x, y);
@@ -195,7 +206,7 @@ public class ResourceManager {
               
             }
         }
-
+        
         // add the player to the map
         Sprite player = null;
 		try {
@@ -207,7 +218,7 @@ public class ResourceManager {
         player.setX(TileMapRenderer.tilesToPixels(3));
         player.setY(0);
         newMap.setPlayer(player);
-
+               
         return newMap;
     }
 
@@ -281,8 +292,9 @@ public class ResourceManager {
             loadImage("cupCake_boss1.png"),
             loadImage("cupCake_boss2.png"),
             loadImage("cupCake_boss_attack1.png"),
-            loadImage("cupCake_boss_attack2.png"),
-        };
+            loadImage("cupCake_boss_attack2.png")
+  
+         };
 
         images[1] = new Image[images[0].length];
         images[2] = new Image[images[0].length];
@@ -370,6 +382,7 @@ public class ResourceManager {
         rollRight.addFrame(rollImages[1][4], 100);
         rollRight.addFrame(rollImages[1][5], 100);
         rollRight.addFrame(rollImages[1][6], 100);
+        
         // create creature sprites
         
         playerSprite =new Player("left",playerAnim[0]);
@@ -388,16 +401,37 @@ public class ResourceManager {
         grubSprite.addAnimation("right", grubAnim[1]);
         grubSprite.addAnimation("deadLeft", grubAnim[2]);
         grubSprite.addAnimation("deadRight", grubAnim[3]);
-        
+        //Adding Sprinkles "Animations" (Just the same picture twice)
+        blueSprinkle = new Sprinkle("bossAttack_Left",createSprinkle(loadImage("b_sprinkle.png")));
+        	blueSprinkle.addAnimation("bossAttack_Right", createSprinkle(loadImage("b_sprinkle.png")));
+        	
+        greenSprinkle = new Sprinkle("bossAttack_Left",createSprinkle(loadImage("g_sprinkle.png")));
+        	greenSprinkle.addAnimation("bossAttack_Right", createSprinkle(loadImage("g_sprinkle.png")));
+        	
+        orangeSprinkle = new Sprinkle("bossAttack_Left",createSprinkle(loadImage("o_sprinkle.png")));
+        	orangeSprinkle.addAnimation("bossAttack_Right", createSprinkle(loadImage("o_sprinkle.png")));
+        	
+        pinkSprinkle = new Sprinkle("bossAttack_Left",createSprinkle(loadImage("p_sprinkle.png")));
+        	pinkSprinkle.addAnimation("bossAttack_Right", createSprinkle(loadImage("p_sprinkle.png")));
+        	
+        yellowSprinkle = new Sprinkle("bossAttack_Left",createSprinkle(loadImage("y_sprinkle.png")));
+        	yellowSprinkle.addAnimation("bossAttack_Right", createSprinkle(loadImage("y_sprinkle.png")));
+        	
+        //Adding Sprinkles to boss ArrayList
+        this.sprinkles.add(blueSprinkle);
+        this.sprinkles.add(greenSprinkle);
+        this.sprinkles.add(orangeSprinkle);
+        this.sprinkles.add(pinkSprinkle);
+        this.sprinkles.add(yellowSprinkle);
+        //Boss regular walking animation
         bossSprite = new Boss("left",bossAnim[0]);
         bossSprite.addAnimation("right", bossAnim[1]);
         bossSprite.addAnimation("deadLeft", bossAnim[2]);
         bossSprite.addAnimation("deadRight", bossAnim[3]);
-        
-        bossSprite.addAnimation("bossAttack_Left", bossAttackAnim[0]);
-        bossSprite.addAnimation("bossAttack_Right", bossAttackAnim[1]);
-        bossSprite.addAnimation("bossDead_Left", bossAttackAnim[2]);
-        bossSprite.addAnimation("bossDead_Right", bossAttackAnim[3]);
+        //Boss attacking animations
+        bossSprite.addAnimation("bossAttack_Left", bossAttackAnim[0]);//Left facing boss attack
+        bossSprite.addAnimation("bossAttack_Right", bossAttackAnim[1]);//right facing boss attack
+
 
     }
 
@@ -409,9 +443,9 @@ public class ResourceManager {
         anim.addFrame(player1, 250);
         anim.addFrame(player2, 150);
         anim.addFrame(player1, 150);
-        anim.addFrame(player2, 150);
-        anim.addFrame(player3, 200);
-        anim.addFrame(player2, 150);
+        anim.addFrame(player3, 150);
+        anim.addFrame(player2, 200);
+        anim.addFrame(player1, 150);
         return anim;
     }
 
@@ -445,8 +479,15 @@ public class ResourceManager {
     private Animation createBossAttackAnim(Image img1, Image img2) {
         Animation anim = new Animation();
         anim.addFrame(img1, 600);
-        anim.addFrame(img2, 600);
+        anim.addFrame(img2, 1000);
         return anim;
+    }
+    
+    private Animation createSprinkle(Image img1) {
+    	Animation anim = new Animation();
+        anim.addFrame(img1, 600);
+        anim.addFrame(img1, 600);
+    	return anim;
     }
     private void loadPowerUpSprites() {
         // create "goal" sprite
@@ -504,5 +545,19 @@ public class ResourceManager {
        
    
     }
+
+
+	public Sprinkle getRandomSprinkle() {
+		// TODO Auto-generated method stub
+		Random rand = new Random();
+		Sprinkle selectedSprinkle = this.sprinkles.get(rand.nextInt(sprinkles.size()));
+		try {
+			return (Sprinkle) selectedSprinkle.clone();
+		} catch (CloneNotSupportedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 }

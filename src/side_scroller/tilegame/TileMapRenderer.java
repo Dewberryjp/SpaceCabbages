@@ -81,6 +81,7 @@ public class TileMapRenderer {
         int screenWidth, int screenHeight)
     {
         Sprite player = map.getPlayer();
+
         int mapWidth = tilesToPixels(map.getWidth());
 
         // get the scrolling position of the map
@@ -137,6 +138,7 @@ public class TileMapRenderer {
         player.setTotalKeys(10);
         g.drawString("number of keys collected: "+ player.getCurrentKeys()+"/"+ player.getTotalKeys(), 450, 50);
         
+
         // draw sprites
         Iterator i = map.getSprites();
         while (i.hasNext()) {

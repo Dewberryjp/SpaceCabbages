@@ -21,7 +21,7 @@ public class TileMap {
     private LinkedList sprites;
     private Sprite player;
     private PowerUp powerup;
-    private int x,y; 
+
 
     /**
         Creates a new TileMap with the specified width and
@@ -32,9 +32,6 @@ public class TileMap {
         sprites = new LinkedList();
     }
 
-    public int getX() {
-    	return this.x;
-    }
     /**
         Gets the width of this TileMap (number of tiles across).
     */
@@ -83,14 +80,12 @@ public class TileMap {
         return player;
     }
 
-
     /**
         Sets the player Sprite.
     */
     public void setPlayer(Sprite player) {
         this.player = player;
     }
-
 
     /**
         Adds a Sprite object to this map.

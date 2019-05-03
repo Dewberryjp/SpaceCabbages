@@ -158,7 +158,7 @@ public class Player extends Creature implements Cloneable {
     			animName="jumpLeft";
     		} else if (onGround && animName.equals("jumpRight")) {
     			animName="right";
-    		} else if (onGround && animName.equals("jumpLeft")) {
+    		} else if (onGround && animName.equals("jumpLeft")) { 
     			animName="left";
     		}
     	} 
