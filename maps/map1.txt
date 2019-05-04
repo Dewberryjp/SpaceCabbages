@@ -11,10 +11,9 @@
 #   4       Boss 
 #   w       Heath Pack   
 
-
-
+ 
                                                                        IIIIIIIIIIIo   
-                                                                                QR      
+*                                                                               QR      
 JR                                                                         o    QR                                   QJ  
 JR          o         III                                                 3NO   QR                                   QJ
 JR          I    III   2   I        o                                      QR   QR3                        o         QJ
@@ -22,6 +21,6 @@ JR                                  I                                      QR   
 JR                                               I  I                     3QR   QR       3               3           QJ
 JR                w       I      3            I                            QR   QR      2        w                   QJ
 JR                                                                         QR   QR              NKO                  QJ
-JR           o        NO                                                   QR   QR2           1NLJMO            2    QJ
-JR*          NO  1    QR               NO1   o   1NO            o      w 23QR o11           NKKLJJJMKKO1 o 1NO      *QJ
-JMKKKKKKKKKKKLMKKKKKKKLMKKKKKKKKKKKKKKKLMKKKKKKKKKLR 3  3   3   3    2 NKKKLMKKKKKKKKKKKKKKKLJJJJJJJJJMKKKKKLMKKKKKKKLJ
+JR           o        NO                                                   QR   QR2           1NLJMO                 QJ
+JR        *  NO  1    QR               NO1   o   1NO            o      w 23QR o11           NKKLJJJMKKO      4o     *QJ
+JMKKKKKKKKKKKLMKKKKKKKLMKKKKKKKKKKKKKKKLMKKKKKKKKKLR 3  3   3   3    2 NKKKLMKKKKKKKKKKKKKKKLJJJJJJJJJMKKKKKKKKKKKKKKLJ

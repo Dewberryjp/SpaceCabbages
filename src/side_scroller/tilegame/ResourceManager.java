@@ -508,10 +508,13 @@ public class ResourceManager {
     private void loadPowerUpSprites() {
         // create "goal" sprite
         Animation anim = new Animation();
-        anim.addFrame(loadImage("heart1.png"), 150);
-        anim.addFrame(loadImage("heart2.png"), 150);
-        anim.addFrame(loadImage("heart3.png"), 150);
-        anim.addFrame(loadImage("heart2.png"), 150);
+        anim.addFrame(loadImage("newlvl.png"), 150);
+        anim.addFrame(loadImage("newlvl1.png"), 150);
+        anim.addFrame(loadImage("newlvl2.png"), 150);
+        anim.addFrame(loadImage("newlvl3.png"), 150);
+        anim.addFrame(loadImage("newlvl2.png"), 150);
+        anim.addFrame(loadImage("newlvl1.png"), 150);
+        anim.addFrame(loadImage("newlvl.png"), 150);
         goalSprite = new PowerUp.Goal("right",anim);
        
         // create "star/key" sprite
