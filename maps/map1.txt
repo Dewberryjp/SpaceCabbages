@@ -18,9 +18,9 @@ JR                                                                         o    
 JR          o         III                                                 3NO   QR                                   QJ
 JR          I    III   2   I        o                                      QR   QR3                        o         QJ
 JR                                  I                                      QR   QRIIIIIII                 III        QJ
-JR                                               I  I                     3QR   QR       3               3           QJ
-JR                w       I      3            I                            QR   QR      2        w                   QJ
-JRIIIIII                                                                   QR   QR              NKO                  QJ
-JRIIIII               NO                                                   QR   QR2           1NLJMO                 QJ
-JRo  1  I    NO   4   QR               NO1   o   1NO            o      w 23QR o11           NKKLJJJMKKO      4o     *QJ
+JRSS                                             I  I                     3QR   QR       3               3           QJ
+JR*S              w       I      3            I                            QR   QR      2        w                   QJ
+JRIIIIII  oo                                                               QR   QR              NKO                  QJ
+JRIIIII  oooo         NO                                                   QR   QR2           1NLJMO                 QJ
+JRo  1  IooooNO   4   QR               NO1   o   1NO            o      w 23QR o11           NKKLJJJMKKO      4o     *QJ
 JMKKKKKKKKKKKLMKKKKKKKLMKKKKKKKKKKKKKKKLMKKKKKKKKKLR 3  3   3   3    2 NKKKLMKKKKKKKKKKKKKKKLJJJJJJJJJMKKKKKKKKKKKKKKLJ

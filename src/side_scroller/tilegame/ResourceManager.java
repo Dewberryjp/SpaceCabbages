@@ -18,7 +18,7 @@ import side_scroller.tilegame.sprites.*;
     "host" Sprites used in the game. Game Sprites are cloned from
     "host" Sprites.
 */
-public class ResourceManager {
+public class ResourceManager extends TileMapRenderer{
 
     private ArrayList tiles;
     private int currentMap;
@@ -33,7 +33,7 @@ public class ResourceManager {
     private Sprite flySprite;
     private Sprite otherSprite;
     private Sprite waterSprite;
-    private Sprite healthSprite; 
+   
     private Boss bossSprite;
     private Sprinkle blueSprinkle, 
 				    greenSprinkle, 
@@ -272,6 +272,9 @@ public class ResourceManager {
         tiles = new ArrayList();
         char ch = 'A';
         while (true) {
+        //if(playerSprite.getCurrentKeys() !=10) {
+        		
+        //	}
             String name = "tile_" + ch + ".png";
             File file = new File("images/" + name);
             if (!file.exists()) {
@@ -279,6 +282,7 @@ public class ResourceManager {
             }
             tiles.add(loadImage(name));
             ch++;
+            
         }
     }
 

@@ -1,7 +1,11 @@
 package side_scroller.tilegame;
 
 import java.awt.*;
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Iterator;
+
+import javax.swing.ImageIcon;
 
 import side_scroller.graphics.Animation;
 import side_scroller.graphics.Sprite;
@@ -21,8 +25,9 @@ import side_scroller.tilegame.sprites.Creature;
 
     <p>This TileMapRender uses a tile size of 64.
  */
-public class TileMapRenderer {
 
+public class TileMapRenderer {
+    private ArrayList tiles;
 	private static final int TILE_SIZE = 64;
 	// the size in bits of the tile
 	// Math.pow(2, TILE_SIZE_BITS) == TILE_SIZE
@@ -75,7 +80,7 @@ public class TileMapRenderer {
     }
 	 * @param background
 	 */
- 
+
 
 
 	/**
@@ -87,7 +92,7 @@ public class TileMapRenderer {
 		Sprite player = map.getPlayer();
 		Sprite boss = map.getBoss();
 		
-		
+	
 		int mapWidth = tilesToPixels(map.getWidth());
 		// get the scrolling position of the map
 		// based on player's position
@@ -169,7 +174,7 @@ public class TileMapRenderer {
 				keyImageX += 20;
 				totalKeyX += 20;
 				g.drawImage(map.getKey().getImage(), keyImageX, keyImageY, null);
-
+				
 			}
 			g.drawString("/ "+ player.getTotalKeys(), totalKeyX, 60);
 			// draws life
@@ -194,6 +199,10 @@ public class TileMapRenderer {
 			}
 		}
 	}
+
+	
+
+    
 
 
 
