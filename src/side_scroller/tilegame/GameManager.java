@@ -42,8 +42,9 @@ public class GameManager extends GameCore {
 
 
 	private ArrayList<Sprinkle> newSprinkles;
-
+	private Creature boss;
 	private Point pointCache = new Point();
+	
 	private TileMap map;
 	private MidiPlayer midiPlayer;
 	private SoundManager soundManager;
@@ -186,14 +187,17 @@ public class GameManager extends GameCore {
 					velocityX+=player.getMaxSpeed();
 
 				}
+				
 				if(roll &&  moveLeft) {
-					velocityX-=player.getMaxSpeed();
 					player.setIsRolling(true);
+					velocityX-=player.getMaxSpeed()*3;
+					
 				}
 				if(roll && moveRight) {
+					velocityX+=player.getMaxSpeed()*3;
 					player.setIsRolling(true);
-					velocityX+=player.getMaxSpeed();
-					System.out.println("roll is true");
+					
+				
 				}
 				if (smash.isPressed() && !player.isOnGround()) {
 					velocityX=0;
@@ -219,6 +223,7 @@ public class GameManager extends GameCore {
 
 	public void draw(Graphics2D g) {
 		renderer.draw(g, map, screen.getWidth(), screen.getHeight(), resourceManager);
+		
 	}
 
 
@@ -228,6 +233,7 @@ public class GameManager extends GameCore {
 	public TileMap getMap() {
 		return map;
 	}
+
 
 
 	/**
@@ -261,7 +267,7 @@ public class GameManager extends GameCore {
 		int toTileX = TileMapRenderer.pixelsToTiles(
 				toX + sprite.getWidth() - 1);
 		int toTileY = TileMapRenderer.pixelsToTiles(
-				toY + sprite.getHeight() - 1);
+				toY + sprite.getHeight()- 1);
 
 		// check each tile for a collision
 		for (int x=fromTileX; x<=toTileX; x++) {
@@ -590,11 +596,18 @@ public class GameManager extends GameCore {
 		else if (collisionSprite instanceof Creature) {
 			Creature badguy = (Creature)collisionSprite;
 			if (canKill) { 
-				// kill the badguy and make player bounce
-				soundManager.play(mobDyingSound);
-				badguy.setState(Creature.STATE_DYING);
-				player.setY(badguy.getY() - player.getHeight());
-				player.jump(true);          
+				if(player.getIsRolling() == true) {
+					soundManager.play(mobDyingSound);
+					badguy.setState(Creature.STATE_DYING);
+				}
+				else{
+					// kill the badguy and make player bounce
+					soundManager.play(mobDyingSound);
+					badguy.setState(Creature.STATE_DYING);
+					player.setY(badguy.getY() - player.getHeight());
+					player.jump(true);
+				}
+			          
 			}
 			else {
 				// player dies!
@@ -606,7 +619,7 @@ public class GameManager extends GameCore {
 				int damageCount = 1;
 				if(player.getHealth() > 1) {
 					player.setHealth(player.getHealth()- damageCount);
-
+					
 					if (dx < 0) {
 						badguy.setVelocityX(Math.abs(dx));
 						badguy.setX(player.getX()+player.getWidth());
@@ -621,18 +634,11 @@ public class GameManager extends GameCore {
 					soundManager.play(playerDyingSound);
 				}
 
-
-
 			}
 
 		}
 
 	}
-
-
-
-
-
 
 	/**
         Gives the player the speicifed power up and removes it

@@ -1,5 +1,6 @@
 package side_scroller.tilegame.sprites;
 
+import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -8,7 +9,7 @@ import side_scroller.graphics.Sprite;
 import side_scroller.tilegame.ResourceManager;
 import side_scroller.tilegame.TileMap;
 
-public class Boss extends Creature{
+public class Boss extends Creature  implements Cloneable{
 private static final float JUMP_SPEED = -.95f;
 protected String animName;
 

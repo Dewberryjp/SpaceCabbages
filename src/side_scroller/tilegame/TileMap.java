@@ -21,6 +21,7 @@ public class TileMap {
     private Image[][] tiles;
     private LinkedList sprites;
     private Sprite player;
+    private Sprite boss;
     private PowerUp powerup;
 
 
@@ -114,6 +115,20 @@ public class TileMap {
     */
     public void setPlayer(Sprite player) {
         this.player = player;
+    }
+    /**
+     * gets the boss sprite 
+     * @return
+     */
+    public Sprite getBoss() {
+    	return boss; 
+    }
+    /**
+     * sets the boss sprite
+     * @param boss
+     */
+    public void setBoss(Sprite boss) {
+    	this.boss = boss;
     }
 
     /**

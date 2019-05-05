@@ -20,7 +20,7 @@ public class Creature extends Sprite implements Cloneable {
     public static final int STATE_DYING = 1;
     public static final int STATE_DEAD = 2;
 
-    public int health;
+   
   
 
     protected int state;
