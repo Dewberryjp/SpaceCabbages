@@ -11,7 +11,6 @@ import side_scroller.tilegame.TileMap;
 
 public class Boss extends Creature  implements Cloneable{
 private static final float JUMP_SPEED = -.95f;
-protected String animName;
 
 	public Boss(String name, Animation anim) {
 		super(name, anim);
