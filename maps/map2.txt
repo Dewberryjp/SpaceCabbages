@@ -20,8 +20,8 @@ JR                                                                         IIIII
 JR                         o           o           o                       IIIIIIIIIIIIIIIIIIIIIIIIII                QJ
 JR                1333333333333333333333333333333333333333333           o  IIIIIIIIIIIIIIIIIIIIIIIIII                QJ
 JR               1I                                         I          3I  I                        I                QJ
-JR              1I                                          I          3I               w           I  o    2   2    QJ
-JR*            1I                                           I          3II              IIII        I 3Iw 2   2   2  QJ
-JR            1I                                            I          3Io             II             3Iw   1   2 1  QJ
-JR           1I                                             I     w    3I              oIo           o3Iw 2  o 11   *QJ
+JR              1I                                          I          3I               w           I  o             QJ
+JR             1I                                           I          3II              IIII        I 3I             QJ
+JR            1I                                            I          3Io             II2            3I             QJ
+JR           1I                                             I     w    3I   1 4 1     1oIo     1     o3I    4  2  o *QJ
 JMKKKKKKKKKKKO                                              I NKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKKLJ
