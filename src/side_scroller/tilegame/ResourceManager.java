@@ -18,7 +18,7 @@ import side_scroller.tilegame.sprites.*;
     "host" Sprites used in the game. Game Sprites are cloned from
     "host" Sprites.
 */
-public class ResourceManager extends TileMapRenderer{
+public class ResourceManager {
 
     private ArrayList tiles;
     private int currentMap;
