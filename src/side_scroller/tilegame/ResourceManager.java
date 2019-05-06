@@ -272,9 +272,9 @@ public class ResourceManager extends TileMapRenderer{
         tiles = new ArrayList();
         char ch = 'A';
         while (true) {
-        //if(playerSprite.getCurrentKeys() !=10) {
-        		
-        //	}
+     //   if(playerSprite.getCurrentKeys()==10 && ch=='S') {
+        	
+       // 	}
             String name = "tile_" + ch + ".png";
             File file = new File("images/" + name);
             if (!file.exists()) {

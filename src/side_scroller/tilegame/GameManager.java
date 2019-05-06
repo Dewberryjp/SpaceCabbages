@@ -242,8 +242,6 @@ public class GameManager extends GameCore {
 	public void toggleDrumPlayback() {
 		Sequencer sequencer = midiPlayer.getSequencer();
 		if (sequencer != null) {
-			sequencer.setTrackMute(DRUM_TRACK,
-					!sequencer.getTrackMute(DRUM_TRACK));
 		}
 	}
 
