@@ -55,6 +55,10 @@
             </manifest>
 
             <fileset dir="${destdir}" includes="**/*.class"/>
+        	<fileset dir="." includes="sounds/*"/>
+        	<fileset dir="." includes="src/**"/>
+        	<fileset dir="." includes="maps/*"/>
+        	<fileset dir="." includes="images/*"/>
         </jar>
 
     </target>
