@@ -676,11 +676,11 @@ public class GameManager extends GameCore {
 
 	public void acquirePowerUp(Player player,PowerUp powerUp) {
 		// remove it from the map
-		map.removeSprite(powerUp);
+		
 
 		if (powerUp instanceof PowerUp.Star) {
 			// do something here, like give the player points
-
+			map.removeSprite(powerUp);
 			if(player.getCurrentKeys() > 9) {
 				System.out.println(player.getCurrentKeys());
 			} else {
@@ -693,21 +693,24 @@ public class GameManager extends GameCore {
 		}
 		else if (powerUp instanceof PowerUp.Music) {
 			// change the music
+			map.removeSprite(powerUp);
 			soundManager.play(prizeSound);
 			toggleDrumPlayback();
 		}
-		else if (powerUp instanceof PowerUp.Goal) {
+		else if (player.getCurrentKeys()==10 && powerUp instanceof PowerUp.Goal) {
 			// advance to next map
+			map.removeSprite(powerUp);
 			soundManager.play(newLevelSound);
 			map = resourceManager.loadNextMap();
 		} else if (powerUp instanceof PowerUp.Other) {
 			soundManager.play(alienSound);
 			player.jump(true);
+			map.removeSprite(powerUp);
 		}
 		else if(powerUp instanceof PowerUp.Water ) {
 			//add more health
+			map.removeSprite(powerUp);
 			if(player.getHealth() > 2) {
-				System.out.println(player.getHealth());
 			} else {
 				int waterCount = 1;
 				player.setHealth(player.getHealth()+ waterCount);

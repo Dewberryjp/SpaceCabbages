@@ -171,7 +171,6 @@ public class TileMapRenderer {
 			int totalHealth = 3; 
 			// draws keys
 			for(int i1=0; i1 < player.getCurrentKeys(); i1++ ) {
-				System.out.println(player.getCurrentKeys());
 				keyImageX += 20;
 				totalKeyX += 20;
 				g.drawImage(map.getKey().getImage(), keyImageX, keyImageY, null);
