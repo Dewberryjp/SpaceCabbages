@@ -686,7 +686,7 @@ public class GameManager extends GameCore {
 			} else {
 				int keyCount = 1;
 				player.setCurrentKeys(player.getCurrentKeys() + keyCount);
-				soundManager.play(prizeSound);
+				//soundManager.play(prizeSound);
 			}
 
 			soundManager.play(prizeSound);
