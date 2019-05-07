@@ -132,6 +132,9 @@ public class Player extends Creature implements Cloneable {
     	if (state == STATE_DYING && stateTime >= DIE_TIME) {
     		setState(STATE_DEAD);
     	}
+    	lastHealthUpdateTime+=elapsedTime;
+    	System.out.println(state+":"+stateTime);
+    	System.out.println("healthtime:"+lastHealthUpdateTime);
     }
     
     public String getNextAnim() {
@@ -216,4 +219,5 @@ public class Player extends Creature implements Cloneable {
 	public boolean getIsRolling() {
 		return isRolling;
 	}
+	
 }

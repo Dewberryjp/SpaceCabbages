@@ -592,6 +592,8 @@ public class GameManager extends GameCore {
 			acquirePowerUp(player,(PowerUp)collisionSprite);
 		}
 		else if (collisionSprite instanceof Creature) {
+			long healthTime=player.getHealthTime();
+			if (healthTime<1000) return;
 			Creature badguy = (Creature)collisionSprite;
 			if (canKill) { 
 				if(player.getIsRolling() == true) {

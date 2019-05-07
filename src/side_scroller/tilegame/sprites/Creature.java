@@ -25,6 +25,7 @@ public class Creature extends Sprite implements Cloneable {
 
     protected int state;
     protected long stateTime;
+    protected long lastHealthUpdateTime;
 
     public Creature(String name, Animation anim) {
     	super(name,anim);
@@ -37,44 +38,10 @@ public class Creature extends Sprite implements Cloneable {
     	Creature c = (Creature)super.clone();
     	c.state = this.state;
     	c.stateTime = this.stateTime;
+    	c.lastHealthUpdateTime=0;
     	return c;
     }
     
-    /**
-        Creates a new Creature with the specified Animations.
-    
-    public Creature(Animation left, Animation right,
-        Animation deadLeft, Animation deadRight)
-    {
-        super(right);
-        this.left = left;
-        this.right = right;
-        this.deadLeft = deadLeft;
-        this.deadRight = deadRight;
-        state = STATE_NORMAL;
-    }
-    
-
-
-    public Object clone() {
-        // use reflection to create the correct subclass
-        Constructor constructor = getClass().getConstructors()[0];
-        try {
-            return constructor.newInstance(new Object[] {
-                (Animation)left.clone(),
-                (Animation)right.clone(),
-                (Animation)deadLeft.clone(),
-                (Animation)deadRight.clone()
-            });
-        }
-        catch (Exception ex) {
-            // should never happen
-            ex.printStackTrace();
-            return null;
-        }
-    }
-    */
-
     /**
         Gets the maximum speed of this Creature.
     */
@@ -191,6 +158,16 @@ public class Creature extends Sprite implements Cloneable {
     
     public String toString() {
     	return "Creature+"+super.toString();
+    }
+    
+    @Override
+    public void setHealth(int health) {
+    	lastHealthUpdateTime=0;
+    	this.health=health;
+    }
+    
+    public long getHealthTime() {
+    	return lastHealthUpdateTime;
     }
 
 }
