@@ -40,6 +40,8 @@ public class Sprinkle extends Sprite{
 		// check if the two sprites' boundaries intersect
 		if (s1x < s2x + this.getWidth() && s2x < s1x + player.getWidth() && s1y < s2y + this.getHeight() && s2y < s1y + player.getHeight()) {
 			player.setHealth(player.getHealth()-1);
+			if(player.getHealth()<1)
+				player.setState(player.STATE_DYING);
 			return true;
 		}
 		Point tile =gameMan.getTileCollision(this, this.getX(), this.getY());
