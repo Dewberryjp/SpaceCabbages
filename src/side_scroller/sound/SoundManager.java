@@ -228,7 +228,7 @@ public class SoundManager extends ThreadPool {
         Plays a sound. This method returns immediately.
     */
     public InputStream play(Sound sound) {
-    	if (muted = false) {
+    	if (!muted) {
     		return play(sound, null, false);
     	}
     	return null;
@@ -242,7 +242,7 @@ public class SoundManager extends ThreadPool {
     public InputStream play(Sound sound, SoundFilter filter,
         boolean loop)
     {
-    	if (muted = false) {
+    	if (!muted) {
 	        InputStream is;
 	        if (sound != null) {
 	            if (loop) {
@@ -265,7 +265,7 @@ public class SoundManager extends ThreadPool {
         returns immediately.
     */
     public InputStream play(InputStream is) {
-    	if (muted = false) {
+    	if (!muted) {
     		return play(is, null);
     	}
     	return null;
@@ -277,7 +277,7 @@ public class SoundManager extends ThreadPool {
         sound filter. This method returns immediately.
     */
     public InputStream play(InputStream is, SoundFilter filter) {
-    	if (muted = false) {
+    	if (!muted) {
 	        if (is != null) {
 	            if (filter != null) {
 	                is = new FilteredSoundStream(is, filter);
