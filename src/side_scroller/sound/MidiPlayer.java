@@ -33,7 +33,12 @@ public class MidiPlayer implements MetaEventListener {
     */
     public Sequence getSequence(String filename) {
         try {
-            return getSequence(new FileInputStream(filename));
+        	InputStream is=getClass().getClassLoader().getResourceAsStream(filename);
+        	if (is==null) {
+        		return getSequence(new FileInputStream(filename));
+        	} else {
+        		return getSequence(is);
+        	}
         }
         catch (IOException ex) {
             ex.printStackTrace();

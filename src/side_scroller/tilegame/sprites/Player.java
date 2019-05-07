@@ -133,8 +133,6 @@ public class Player extends Creature implements Cloneable {
     		setState(STATE_DEAD);
     	}
     	lastHealthUpdateTime+=elapsedTime;
-    	System.out.println(state+":"+stateTime);
-    	System.out.println("healthtime:"+lastHealthUpdateTime);
     }
     
     public String getNextAnim() {

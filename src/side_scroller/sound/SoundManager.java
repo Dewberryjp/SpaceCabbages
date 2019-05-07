@@ -182,8 +182,12 @@ public class SoundManager extends ThreadPool {
     */
     public AudioInputStream getAudioInputStream(String filename) {
         try {
+        	InputStream is=getClass().getClassLoader().getResourceAsStream(filename);
+        	if (is==null) {
             return getAudioInputStream(
                 new FileInputStream(filename));
+        	}
+        	return getAudioInputStream(is);
         }
         catch (IOException ex) {
             ex.printStackTrace();

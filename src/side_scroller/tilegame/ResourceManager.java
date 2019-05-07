@@ -4,6 +4,7 @@ import java.awt.*;
 
 import java.awt.geom.AffineTransform;
 import java.io.*;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -65,7 +66,13 @@ public class ResourceManager {
     */
     public Image loadImage(String name) {
         String filename = "images/" + name;
-        return new ImageIcon(filename).getImage();
+        URL url = getClass().getClassLoader().getResource(filename);
+        if (url==null) {
+        	return new ImageIcon(filename).getImage();
+        }
+        System.out.println("url="+url.toString());
+        return new ImageIcon(url).getImage();
+        //return new ImageIcon(filename).getImage();
     }
 
 
@@ -147,8 +154,21 @@ public class ResourceManager {
         int height = 0;
 
         // read every line in the text file into the list
-        BufferedReader reader = new BufferedReader(
-            new FileReader(filename));
+        //BufferedReader txtReader = new BufferedReader(
+        //new InputStreamReader(
+        //getClass().getResourceAsStream("/resources/mytextfile.txt")));
+        System.out.println("filename="+filename);
+        InputStream inputStream = getClass().getClassLoader().getResourceAsStream(filename);
+        BufferedReader reader=null;
+        System.out.println("LOADING MAP***********");
+        if (inputStream==null) {
+        	System.out.println("blah2222222222222222");
+        	reader = new BufferedReader(new FileReader(filename));
+        } else {
+        	System.out.println("blah");
+        	System.out.println(inputStream.toString());
+        	reader = new BufferedReader(new InputStreamReader(inputStream));
+        }
         while (true) {
             String line = reader.readLine();
             // no more lines to read
@@ -163,6 +183,16 @@ public class ResourceManager {
                 width = Math.max(width, line.length());
             }
         }
+        System.out.println("done loading map file:");
+        for(int blah=0;blah<lines.size();blah++) {
+        	System.out.println(lines.get(blah));
+        }
+        try {
+			Thread.sleep(1000);
+		} catch (InterruptedException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
         // parse the lines to create a TileEngine
         height = lines.size();
@@ -276,8 +306,8 @@ public class ResourceManager {
         	
        // 	}
             String name = "tile_" + ch + ".png";
-            File file = new File("images/" + name);
-            if (!file.exists()) {
+            //File file = new File("images/" + name);
+            if (ch > 'V') { //!file.exists()) {
                 break;
             }
             tiles.add(loadImage(name));
